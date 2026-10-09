@@ -1,0 +1,2613 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#07050D" />
+<title>AURA XITERS ADMIN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#8B5CF6; --primary-lt:#A78BFA; --primary-dp:#6D28D9; --primary-ac:#C084FC;
+  --bg:#07050D; --bg-2:#0D0918;
+  --glass:rgba(139,92,246,0.08); --glass-2:rgba(139,92,246,0.14); --glass-3:rgba(139,92,246,0.20);
+  --border:rgba(167,139,250,0.18); --border-2:rgba(167,139,250,0.32);
+  --text:#FFFFFF; --text-2:#A9A0B8; --text-3:#766B88;
+  --green:#22c55e; --green-soft:rgba(34,197,94,0.14);
+  --red:#ef4444; --red-soft:rgba(239,68,68,0.14);
+  --orange:#f59e0b; --orange-soft:rgba(245,158,11,0.14);
+  --blue:#3b82f6; --blue-soft:rgba(59,130,246,0.14);
+  --radius:16px; --radius-lg:22px; --nav-h:72px;
+}
+[data-theme="light"]{--bg:#f5f3ff;--bg-2:#fff;--glass:rgba(139,92,246,0.06);--glass-2:rgba(139,92,246,0.10);--glass-3:rgba(139,92,246,0.16);--border:rgba(88,28,135,0.14);--border-2:rgba(88,28,135,0.28);--text:#1e0b3d;--text-2:#7e6ba6;--text-3:#a89bc0}
+[data-theme="neon"]{--primary:#d946ef;--primary-lt:#f472b6;--primary-dp:#7e22ce;--primary-ac:#e879f9;--bg:#0a0014;--bg-2:#150328}
+[data-theme="cyber"]{--primary:#6366f1;--primary-lt:#818cf8;--primary-dp:#312e81;--primary-ac:#22d3ee;--bg:#050019;--bg-2:#0a0430}
+[data-theme="mono"]{--primary:#e5e5e5;--primary-lt:#fafafa;--primary-dp:#404040;--primary-ac:#a3a3a3;--bg:#0a0a0a;--bg-2:#141414}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+button,input,select,textarea{font-family:inherit}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:4px}
+.hidden{display:none!important}
+.splash{position:fixed;inset:0;z-index:999;display:grid;place-items:center;background:var(--bg);transition:opacity .3s ease}
+.splash.out{opacity:0;pointer-events:none}
+.splash-logo{width:84px;height:84px;border-radius:24px;background:linear-gradient(135deg,var(--primary),var(--primary-dp));display:grid;place-items:center;font-weight:900;font-size:32px;color:#fff;box-shadow:0 20px 60px rgba(139,92,246,0.5);animation:splashPulse 1.4s ease-in-out infinite}
+@keyframes splashPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.splash-text{margin-top:22px;font-size:11px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--text-3);font-family:'JetBrains Mono',monospace}
+.ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:radial-gradient(900px 500px at 20% -10%, rgba(139,92,246,0.10), transparent 60%),radial-gradient(800px 500px at 100% 100%, rgba(109,40,217,0.10), transparent 55%),var(--bg)}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.28;animation:drift 22s ease-in-out infinite alternate}
+.orb-1{width:520px;height:520px;background:var(--primary);top:-160px;left:-140px}
+.orb-2{width:440px;height:440px;background:var(--primary-dp);bottom:-140px;right:-140px;animation-delay:-7s}
+.orb-3{width:380px;height:380px;background:var(--primary-ac);top:40%;left:55%;opacity:.15;animation-delay:-14s}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-30px) scale(1.05)}100%{transform:translate(-30px,20px) scale(1.02)}}
+.app-header{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:12px;padding:14px 18px;padding-top:calc(14px + env(safe-area-inset-top,0px));background:rgba(8,5,15,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(167,139,250,0.12)}
+.brand{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.brand-logo{width:40px;height:40px;border-radius:12px;flex-shrink:0;background:linear-gradient(135deg,var(--primary),var(--primary-dp));display:grid;place-items:center;font-weight:900;font-size:14px;color:#fff;box-shadow:0 6px 20px rgba(139,92,246,0.35);overflow:hidden}
+.brand-logo img{width:100%;height:100%;object-fit:cover}
+.brand-text{min-width:0}
+.brand-name{font-weight:900;font-size:13.5px;letter-spacing:.14em;color:var(--primary-lt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;font-family:'JetBrains Mono',monospace}
+.brand-sub{font-size:9.5px;color:var(--text-3);letter-spacing:.18em;text-transform:uppercase;font-weight:700;font-family:'JetBrains Mono',monospace}
+.header-spacer{flex:1}
+.header-right{display:flex;gap:8px;align-items:center}
+.sync-badge{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:10px;font-size:10px;font-weight:800;background:var(--green-soft);color:var(--green);border:1px solid rgba(34,197,94,.28);font-family:'JetBrains Mono',monospace;letter-spacing:.05em}
+.sync-badge.off{background:var(--orange-soft);color:var(--orange);border-color:rgba(245,158,11,.28)}
+.sync-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulseDot 1.4s ease-in-out infinite}
+@keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.4}}
+.icon-btn{width:38px;height:38px;border-radius:12px;border:1px solid var(--border);background:var(--glass);color:var(--text-2);cursor:pointer;display:grid;place-items:center;flex-shrink:0;transition:all .2s ease}
+.icon-btn svg{width:16px;height:16px}
+.icon-btn:hover{background:var(--glass-2);color:var(--primary-lt);border-color:var(--primary)}
+.avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,rgba(139,92,246,0.35),rgba(109,40,217,0.25));border:1px solid var(--border);display:grid;place-items:center;font-weight:800;font-size:14px;color:var(--primary-lt);cursor:pointer;flex-shrink:0}
+.app-main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:20px 18px calc(var(--nav-h) + 60px + env(safe-area-inset-bottom,0px));min-height:calc(100vh - 80px)}
+.tab-panel{display:none}
+.tab-panel.active{display:block;animation:fadeUp .28s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.section-title{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);margin:22px 0 10px 4px;font-family:'JetBrains Mono',monospace}
+.section-title:first-child{margin-top:4px}
+.card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;margin-bottom:14px}
+.card:hover{border-color:var(--border-2)}
+.field{margin-bottom:14px}
+.field:last-child{margin-bottom:0}
+.field-label{display:block;font-size:11px;font-weight:800;color:var(--text-3);margin-bottom:8px;letter-spacing:.08em;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.field-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+input[type="text"],input[type="url"],input[type="number"],input[type="email"],input[type="password"],textarea,select{width:100%;padding:12px 14px;background:rgba(10,6,20,0.6);border:1px solid var(--border);border-radius:14px;color:var(--text);font-size:14px;font-weight:500;outline:none;transition:border-color .2s,box-shadow .2s}
+input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(139,92,246,0.15);background:rgba(10,6,20,0.85)}
+input::placeholder,textarea::placeholder{color:#4E4658}
+textarea{resize:vertical;min-height:70px;line-height:1.5}
+select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238B5CF6' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:14px;padding-right:36px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border:1px solid var(--border);background:var(--glass-2);color:var(--text);border-radius:14px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s ease;user-select:none;white-space:nowrap}
+.btn:hover{background:var(--glass-3);border-color:var(--border-2)}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn svg{width:16px;height:16px;flex-shrink:0}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dp));border-color:transparent;color:#fff;box-shadow:0 8px 24px rgba(139,92,246,0.35)}
+.btn-primary:hover{box-shadow:0 10px 32px rgba(139,92,246,0.5)}
+.btn-danger{background:var(--red-soft);border-color:rgba(239,68,68,0.35);color:#FCA5A5}
+.btn-success{background:var(--green-soft);border-color:rgba(34,197,94,0.35);color:#86EFAC}
+.btn-ghost{background:transparent;color:var(--text-2)}
+.btn-block{width:100%}
+.btn-sm{padding:9px 14px;font-size:12px;border-radius:12px}
+.btn-icon{width:42px;height:42px;padding:0;border-radius:12px;flex-shrink:0}
+.spinner{display:inline-block;width:13px;height:13px;border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .75s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gen-row{display:flex;gap:10px;align-items:stretch}
+.gen-input-wrap{flex:1}
+.gen-input-wrap input{padding:16px 18px;font-size:16px;font-weight:800;letter-spacing:.15em;font-family:'JetBrains Mono',monospace;text-transform:uppercase;background:rgba(10,6,20,0.85);border:2px solid var(--border-2);border-radius:16px;color:var(--primary-lt);text-align:center}
+.gen-btn{width:56px;height:56px;border-radius:16px;border:none;background:linear-gradient(135deg,var(--primary),var(--primary-dp));color:#fff;cursor:pointer;display:grid;place-items:center;flex-shrink:0;box-shadow:0 8px 24px rgba(139,92,246,0.4)}
+.gen-btn svg{width:22px;height:22px}
+.gen-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.gen-chip{padding:8px 14px;border-radius:11px;border:1px solid var(--border);background:var(--glass-2);color:var(--text-2);font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:800;cursor:pointer;text-transform:uppercase;letter-spacing:.06em}
+.gen-chip:hover{background:var(--glass-3);color:var(--primary-lt);border-color:var(--primary)}
+.gen-chip.copied{background:var(--green-soft);color:var(--green);border-color:rgba(34,197,94,.35)}
+.gen-hint{font-size:10.5px;color:var(--text-3);margin-top:8px;font-family:'JetBrains Mono',monospace}
+.dur-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
+.dur-tab{padding:11px 8px;border-radius:12px;border:1px solid var(--border);background:var(--glass-2);color:var(--text-2);font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:800;cursor:pointer;text-transform:uppercase;text-align:center}
+.dur-tab.active{background:linear-gradient(135deg,var(--primary),var(--primary-dp));color:#fff;border-color:transparent}
+.quick-durations{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.dur{padding:7px 13px;border-radius:10px;border:1px solid var(--border);background:var(--glass-2);color:var(--text-2);font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:800;cursor:pointer}
+.dur:hover{background:var(--glass-3);color:var(--primary-lt);border-color:var(--primary)}
+.dur.active{background:linear-gradient(135deg,var(--primary),var(--primary-dp));color:#fff;border-color:transparent}
+.key-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.key-card{padding:16px;border-radius:var(--radius-lg);background:var(--glass);border:1px solid var(--border);position:relative;overflow:hidden}
+.key-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--primary)}
+.key-card.status-KEY-EXPIRED::before,.key-card.status-KEY-BANNED::before{background:var(--red)}
+.key-card.status-KEY-BLOCKED::before{background:var(--orange)}
+.key-card.status-KEY-DISABLED::before{background:var(--text-3)}
+.key-card.status-TIMER-PAUSED::before{background:var(--blue)}
+.key-card.status-KEY-ACTIVE::before{background:var(--green)}
+.key-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px}
+.key-card-key{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:900;color:var(--primary-lt);word-break:break-all;flex:1;min-width:0;letter-spacing:.05em;cursor:pointer;padding:6px 10px;border-radius:8px;background:rgba(10,6,20,0.4);border:1px solid var(--border)}
+.key-meta-row{display:flex;align-items:center;gap:8px;font-size:12px;padding:8px 0;border-top:1px solid var(--border)}
+.key-meta-row .lbl{color:var(--text-3);font-weight:700;font-size:10.5px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;letter-spacing:.06em;width:80px;flex-shrink:0}
+.key-meta-row .val{color:var(--text);font-weight:600;flex:1;word-break:break-all;text-align:right}
+.key-timer-big{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:12px;background:rgba(10,6,20,0.5);border:1px solid var(--border);margin:10px 0}
+.key-timer-big .t-lbl{font-size:10.5px;font-weight:800;color:var(--text-3);text-transform:uppercase;font-family:'JetBrains Mono',monospace;letter-spacing:.08em}
+.key-timer-big .t-val{font-size:16px;font-weight:900;font-family:'JetBrains Mono',monospace}
+.key-devices-bar{height:4px;border-radius:2px;background:var(--glass-3);overflow:hidden;margin-top:6px}
+.key-devices-bar-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--primary-ac));border-radius:2px}
+.key-actions-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:14px}
+.ka-btn{padding:10px 4px;border-radius:11px;border:1px solid var(--border);background:var(--glass-2);color:var(--text-2);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:800;text-transform:uppercase}
+.ka-btn svg{width:15px;height:15px}
+.ka-btn:hover{background:var(--glass-3);border-color:var(--border-2);color:var(--primary-lt)}
+.ka-btn.ka-view:hover{background:var(--blue-soft);color:var(--blue)}
+.ka-btn.ka-log:hover{background:var(--orange-soft);color:var(--orange)}
+.ka-btn.ka-start{background:linear-gradient(135deg,rgba(34,197,94,.22),rgba(139,92,246,.14));color:var(--green);border-color:rgba(34,197,94,.45);font-weight:900}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:8px;font-size:9.5px;font-weight:900;text-transform:uppercase;white-space:nowrap;border:1px solid transparent;font-family:'JetBrains Mono',monospace;letter-spacing:.06em}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+.badge-KEY-ACTIVE{background:var(--green-soft);color:var(--green);border-color:rgba(34,197,94,.35)}
+.badge-KEY-EXPIRED{background:var(--red-soft);color:var(--red);border-color:rgba(239,68,68,.35)}
+.badge-KEY-BANNED{background:var(--red-soft);color:var(--red);border-color:rgba(239,68,68,.35)}
+.badge-KEY-BLOCKED{background:var(--orange-soft);color:var(--orange);border-color:rgba(245,158,11,.35)}
+.badge-KEY-DISABLED{background:rgba(148,163,184,.14);color:var(--text-3)}
+.badge-KEY-INACTIVE{background:rgba(148,163,184,.14);color:var(--text-3)}
+.badge-TIMER-PAUSED{background:var(--blue-soft);color:var(--blue);border-color:rgba(59,130,246,.35)}
+.empty{padding:52px 20px;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text-3);text-align:center}
+.empty p{font-size:12px;font-weight:800;color:var(--text-2);text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.toolbar{display:flex;align-items:center;gap:8px;padding:12px;margin-bottom:14px;flex-wrap:wrap;background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-lg)}
+.search-wrap{flex:1;min-width:180px;display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:11px;background:var(--bg-2);border:1px solid var(--border)}
+.search-wrap:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px rgba(139,92,246,0.15)}
+.search-wrap svg{width:15px;height:15px;color:var(--text-3);flex-shrink:0}
+.search-wrap input{border:none;background:transparent;outline:none;color:var(--text);font-size:12.5px;width:100%;padding:0}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+.stat-card{padding:15px;border-radius:var(--radius-lg);background:var(--glass);border:1px solid var(--border);position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;left:0;top:18%;bottom:18%;width:3px;border-radius:3px;background:var(--glow,var(--primary))}
+.stat-icon{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;margin-bottom:11px;background:var(--icon-bg,var(--glass-2));color:var(--icon-c,var(--primary));border:1px solid var(--border)}
+.stat-icon svg{width:17px;height:17px}
+.stat-value{font-size:24px;font-weight:900;line-height:1;margin-bottom:5px;font-family:'JetBrains Mono',monospace}
+.stat-label{font-size:9px;font-weight:800;text-transform:uppercase;color:var(--text-3);font-family:'JetBrains Mono',monospace;letter-spacing:.1em}
+.chips{display:flex;gap:7px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{padding:8px 14px;border-radius:11px;border:1px solid var(--border);background:var(--glass);color:var(--text-3);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:800;cursor:pointer;white-space:nowrap;text-transform:uppercase}
+.chip.active{background:linear-gradient(135deg,var(--primary),var(--primary-dp));color:#fff;border-color:transparent}
+.chip .chip-count{display:inline-block;margin-left:6px;font-size:9px;opacity:.85;font-weight:800}
+.bottom-dock-wrap{position:fixed;left:0;right:0;bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;z-index:50;pointer-events:none;padding:0 12px}
+.bottom-dock{pointer-events:auto;display:flex;align-items:center;justify-content:space-around;gap:4px;width:100%;max-width:560px;padding:8px;background:rgba(18,12,31,0.92);border:1px solid rgba(167,139,250,0.20);border-radius:24px;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 12px 40px rgba(0,0,0,.6),0 4px 16px rgba(109,40,217,0.25);opacity:0;transform:translateY(20px);animation:dockIn .4s cubic-bezier(.16,1,.3,1) .15s forwards}
+@keyframes dockIn{to{opacity:1;transform:translateY(0)}}
+.dock-btn{flex:1;height:52px;border:none;background:transparent;border-radius:16px;cursor:pointer;display:grid;place-items:center;color:#766B88;transition:color .22s ease,background .22s ease,transform .15s ease,box-shadow .22s ease;position:relative;padding:0}
+.dock-btn svg{width:22px;height:22px}
+.dock-btn:hover{background:rgba(139,92,246,0.12);color:var(--primary-lt)}
+.dock-btn.active{color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary-dp));box-shadow:0 6px 20px rgba(139,92,246,0.45)}
+.dock-btn:active{transform:scale(.94)}
+.more-sheet{position:fixed;inset:0;z-index:150;display:none;align-items:flex-end;justify-content:center;background:rgba(5,2,15,0.78);backdrop-filter:blur(8px)}
+.more-sheet.show{display:flex}
+.more-content{width:100%;max-width:660px;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px));background:rgba(18,12,31,0.98);border:1px solid var(--border-2);border-bottom:none;border-radius:28px 28px 0 0;box-shadow:0 -20px 60px rgba(0,0,0,0.55);animation:sheetIn .3s cubic-bezier(.16,1,.3,1) both}
+@keyframes sheetIn{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.more-handle{width:46px;height:4px;border-radius:2px;background:var(--border-2);margin:0 auto 18px}
+.more-title{font-size:11px;font-weight:800;text-transform:uppercase;color:var(--text-3);letter-spacing:.16em;margin-bottom:16px;padding:0 4px;font-family:'JetBrains Mono',monospace}
+.more-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.more-tile{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 8px;border-radius:18px;background:var(--glass);border:1px solid var(--border);color:var(--primary-lt);cursor:pointer;font-family:inherit}
+.more-tile:hover{background:var(--glass-2);border-color:var(--primary)}
+.more-tile svg{width:24px;height:24px}
+.more-tile span{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2);text-align:center}
+.admin-mini{display:flex;align-items:center;gap:11px;padding:11px;border-radius:13px;background:var(--glass);border:1px solid var(--border);margin-top:14px}
+.admin-mini .avatar{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary-dp));flex-shrink:0;text-transform:uppercase}
+.admin-mini-text{min-width:0;flex:1}
+.admin-mini-text div{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-mini-text small{font-size:9.5px;color:var(--text-3);text-transform:uppercase;font-weight:600;font-family:'JetBrains Mono',monospace;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.modal-overlay{position:fixed;inset:0;background:rgba(5,2,15,0.82);backdrop-filter:blur(6px);z-index:200;display:none;align-items:flex-end;justify-content:center;overflow-y:auto}
+.modal-overlay.open{display:flex}
+#confirmModal, #promptModal { z-index: 400; }
+.modal{width:100%;max-width:660px;max-height:94vh;display:flex;flex-direction:column;background:var(--bg-2);border-radius:28px 28px 0 0;border:1px solid var(--border-2);border-bottom:none;margin-top:auto;box-shadow:0 -12px 40px rgba(0,0,0,.55)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border);flex-shrink:0}
+.modal-head h3{font-size:12.5px;font-weight:800;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.modal-close{width:36px;height:36px;border-radius:11px;border:1px solid var(--border);background:var(--glass-2);color:var(--text-2);font-size:20px;cursor:pointer;display:grid;place-items:center;padding-bottom:3px}
+.modal-body{padding:18px;overflow-y:auto;flex:1}
+.modal-foot{display:flex;gap:10px;justify-content:flex-end;padding:14px 18px;border-top:1px solid var(--border);flex-shrink:0;flex-wrap:wrap}
+.confirm-msg{font-size:13px;color:var(--text-2);line-height:1.65;white-space:pre-line}
+.key-banner{font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:900;color:var(--primary-lt);padding:14px 15px;border-radius:12px;background:var(--glass-2);border:1px solid var(--border-2);margin-bottom:16px;word-break:break-all;text-align:center}
+.details-section-title{font-size:9.5px;font-weight:800;text-transform:uppercase;color:var(--text-3);margin:16px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;display:flex;align-items:center;justify-content:space-between}
+.details-section-title:first-child{margin-top:0}
+.details-section-title .count{background:var(--glass-2);color:var(--primary-lt);padding:2px 8px;border-radius:6px;font-size:9px}
+.details-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.detail-item{padding:12px 14px;border-radius:12px;background:var(--glass-2);border:1px solid var(--border);min-width:0}
+.detail-item.span-2{grid-column:span 2}
+.detail-label{font-size:9px;font-weight:800;text-transform:uppercase;color:var(--text-3);margin-bottom:5px;font-family:'JetBrains Mono',monospace}
+.detail-value{font-size:11.5px;font-weight:600;word-break:break-all;font-family:'JetBrains Mono',monospace;line-height:1.5}
+.quick-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin-bottom:16px;padding:14px;border-radius:var(--radius-lg);background:var(--glass-2);border:1px solid var(--border)}
+.quick-action-btn{padding:11px 8px;border-radius:11px;border:1px solid var(--border);background:var(--bg-2);color:var(--text-2);font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:800;text-transform:uppercase;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center}
+.quick-action-btn.qa-activate:hover{background:var(--green-soft);color:var(--green)}
+.quick-action-btn.qa-block:hover{background:var(--orange-soft);color:var(--orange)}
+.quick-action-btn.qa-ban:hover{background:var(--red-soft);color:var(--red)}
+.quick-action-btn.qa-reset:hover{background:var(--blue-soft);color:var(--blue)}
+.quick-action-btn.qa-delete:hover{background:var(--red-soft);color:var(--red)}
+.info-banner{margin-top:12px;margin-bottom:12px;padding:12px 15px;border-radius:11px;background:linear-gradient(120deg,var(--blue-soft),transparent);border:1px solid rgba(59,130,246,.35);color:var(--text-2);font-size:12px;display:flex;gap:10px;align-items:flex-start;line-height:1.55}
+.info-banner svg{width:18px;height:18px;color:var(--blue);flex-shrink:0;margin-top:1px}
+.form-error{margin-top:12px;padding:12px 15px;border-radius:11px;background:var(--red-soft);border:1px solid rgba(239,68,68,.32);color:#FCA5A5;font-size:12px;font-weight:600;display:none}
+.form-error.show{display:block}
+.form-success{margin-top:12px;padding:12px 15px;border-radius:11px;background:var(--green-soft);border:1px solid rgba(34,197,94,.32);color:#86EFAC;font-size:12px;font-weight:600;display:none}
+.form-success.show{display:block}
+.key-activity-list{display:flex;flex-direction:column;gap:6px;max-height:340px;overflow-y:auto;margin-bottom:4px}
+.key-activity-item{display:flex;gap:10px;padding:10px 12px;border-radius:10px;background:var(--glass-2);border:1px solid var(--border);align-items:flex-start}
+.key-activity-dot{width:8px;height:8px;border-radius:50%;background:var(--primary);flex-shrink:0;margin-top:6px}
+.key-activity-dot.red{background:var(--red)}
+.key-activity-dot.green{background:var(--green)}
+.key-activity-dot.orange{background:var(--orange)}
+.key-activity-dot.blue{background:var(--blue)}
+.key-activity-body{flex:1;min-width:0}
+.key-activity-title{font-size:12px;font-weight:700;word-break:break-word}
+.key-activity-meta{font-size:10px;color:var(--text-3);margin-top:3px;font-family:'JetBrains Mono',monospace;display:flex;gap:8px;flex-wrap:wrap}
+.activity-list{display:flex;flex-direction:column;gap:8px;max-height:680px;overflow-y:auto}
+.activity-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;background:var(--glass-2);border:1px solid var(--border)}
+.activity-icon{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;flex-shrink:0;background:var(--glass-2);color:var(--primary-lt)}
+.activity-body{flex:1;min-width:0}
+.activity-action{font-size:12px;font-weight:700}
+.activity-meta{font-size:10.5px;color:var(--text-3);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.activity-meta code{font-family:'JetBrains Mono',monospace;color:var(--primary-lt);background:var(--glass-2);padding:1px 7px;border-radius:5px;font-size:10px;border:1px solid var(--border)}
+.device-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.device-card{padding:15px;border-radius:var(--radius-lg);background:var(--glass-2);border:1px solid var(--border)}
+.device-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.device-icon{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--glass-2);color:var(--primary-lt);flex-shrink:0}
+.device-key{font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;word-break:break-all;flex:1;min-width:0}
+.device-user{font-size:10.5px;color:var(--text-3);margin-top:2px}
+.device-field{display:flex;justify-content:space-between;gap:10px;font-size:11px;padding:6px 0;border-top:1px solid var(--border);font-family:'JetBrains Mono',monospace}
+.device-field span:first-child{color:var(--text-3);font-weight:600}
+.device-field span:last-child{color:var(--text-2);font-weight:600;word-break:break-all;text-align:right}
+.setting-group-title{font-size:11px;font-weight:800;text-transform:uppercase;font-family:'JetBrains Mono',monospace;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.setting-group-title::before{content:'';width:3px;height:15px;border-radius:2px;background:linear-gradient(180deg,var(--primary),var(--primary-ac))}
+.theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(106px,1fr));gap:9px}
+.theme-opt{padding:11px 8px;border-radius:13px;border:1px solid var(--border);background:var(--glass-2);cursor:pointer;text-align:center;color:var(--text-2);display:flex;flex-direction:column;align-items:center;gap:7px;position:relative}
+.theme-opt.active{border-color:var(--primary);box-shadow:0 0 0 3px rgba(139,92,246,0.15)}
+.theme-opt-swatch{width:100%;height:32px;border-radius:9px;display:flex;overflow:hidden}
+.theme-opt-swatch span{flex:1}
+.theme-opt-label{font-size:9.5px;font-weight:800;font-family:'JetBrains Mono',monospace;text-transform:uppercase}
+.theme-opt-check{position:absolute;top:7px;right:7px;width:19px;height:19px;border-radius:50%;background:var(--primary);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:900;opacity:0}
+.theme-opt.active .theme-opt-check{opacity:1}
+.seg-tabs{display:flex;gap:6px;margin-bottom:18px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.seg-tabs::-webkit-scrollbar{display:none}
+.seg-tab{padding:8px 14px;border-radius:11px;border:1px solid var(--border);background:var(--glass);color:var(--text-3);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:800;cursor:pointer;white-space:nowrap;text-transform:uppercase}
+.seg-tab.active{background:linear-gradient(135deg,var(--primary),var(--primary-dp));color:#fff;border-color:transparent}
+.brand-tab.hidden{display:none!important}
+.logo-upload-wrap{display:flex;gap:14px;align-items:center;padding:14px;border-radius:var(--radius-lg);background:var(--glass-2);border:1px solid var(--border)}
+.brand-logo-circle{width:96px;height:96px;border-radius:50%;background:var(--bg-2);border:2px dashed var(--border-2);display:grid;place-items:center;overflow:hidden;flex-shrink:0;position:relative}
+.brand-logo-circle.has-image{border-style:solid;border-color:var(--primary)}
+.brand-logo-circle img{width:100%;height:100%;object-fit:cover}
+.brand-logo-circle .logo-placeholder{font-size:34px;opacity:.35}
+.logo-upload-actions{display:flex;flex-direction:column;gap:9px;flex:1;min-width:0}
+.logo-upload-btns{display:flex;gap:8px;flex-wrap:wrap}
+.logo-mini-btn{padding:9px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg-2);color:var(--text-2);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:800;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.logo-mini-btn.primary{background:linear-gradient(135deg,var(--primary),var(--primary-dp));color:#fff;border-color:transparent}
+.logo-mini-btn.danger{color:var(--red);border-color:rgba(239,68,68,.3);background:var(--red-soft)}
+.color-pair{display:flex;gap:8px;align-items:center}
+.color-pair input[type="color"]{width:52px;height:44px;border-radius:11px;border:1px solid var(--border);background:var(--bg-2);cursor:pointer;padding:3px;flex-shrink:0}
+.color-pair input[type="text"]{flex:1;font-family:'JetBrains Mono',monospace;font-size:12px}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 17px;border-radius:var(--radius-lg);background:var(--glass-2);border:1px solid var(--border);margin-bottom:14px}
+.toggle-info{flex:1;min-width:0}
+.toggle-title{font-size:12.5px;font-weight:700;margin-bottom:2px}
+.toggle-desc{font-size:11px;color:var(--text-3);line-height:1.45}
+.switch{position:relative;width:44px;height:26px;background:rgba(139,92,246,0.15);border:1px solid var(--border);border-radius:20px;cursor:pointer;transition:background .25s ease;flex-shrink:0}
+.switch::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#6B6478;transition:transform .25s ease,background .25s ease}
+.switch.on{background:linear-gradient(135deg,var(--primary),var(--primary-dp));border-color:transparent}
+.switch.on::after{transform:translateX(18px);background:#fff;box-shadow:0 0 12px rgba(255,255,255,0.5)}
+.switch-block{padding:14px;border-radius:var(--radius-lg);background:var(--glass-2);border:1px solid var(--border);margin-bottom:14px}
+.switch-block-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.switch-block-left{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.switch-num{width:34px;height:34px;border-radius:11px;background:var(--glass-2);color:var(--primary-lt);display:grid;place-items:center;font-weight:900;font-family:'JetBrains Mono',monospace;font-size:12px;flex-shrink:0}
+.switch-id{font-weight:800;font-size:12px;font-family:'JetBrains Mono',monospace;word-break:break-all}
+.switch-status{font-size:9.5px;font-weight:800;text-transform:uppercase;padding:4px 10px;border-radius:7px;font-family:'JetBrains Mono',monospace;display:inline-block;margin-top:3px}
+.switch-status.on{background:var(--green-soft);color:var(--green)}
+.switch-status.off{background:var(--red-soft);color:var(--red)}
+.switch-block-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.remove-switch-btn{width:36px;height:36px;border-radius:11px;border:1px solid rgba(239,68,68,.32);background:var(--red-soft);color:var(--red);cursor:pointer;display:grid;place-items:center;font-size:15px;font-weight:800}
+.add-row{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border:1px dashed var(--border-2);border-radius:16px;color:var(--primary-lt);font-weight:700;font-size:13px;cursor:pointer;background:transparent;width:100%;font-family:inherit}
+.add-row:hover{background:var(--glass-2);border-color:var(--primary)}
+.row-item{display:flex;align-items:center;gap:12px;padding:14px;background:rgba(10,6,20,0.4);border:1px solid var(--border);border-radius:16px;margin-bottom:10px}
+.row-item .row-thumb{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,rgba(139,92,246,0.30),rgba(109,40,217,0.20));display:grid;place-items:center;flex-shrink:0;overflow:hidden;border:1px solid var(--border);font-weight:900;color:var(--primary-lt);font-size:12px}
+.row-item .row-thumb img{width:100%;height:100%;object-fit:cover}
+.row-item .row-body{flex:1;min-width:0}
+.row-item .row-body input{padding:8px 10px;font-size:13px;border-radius:10px}
+.row-item .row-body .row-line{margin-bottom:6px}
+.row-item .row-body .row-line:last-child{margin-bottom:0}
+.row-item .row-actions{display:flex;flex-direction:column;gap:6px}
+.grid-2{display:grid;grid-template-columns:1fr;gap:14px}
+.span-2{grid-column:span 2}
+.form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.panel-head h3{font-size:12px;font-weight:800;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.pill{font-size:9.5px;font-weight:800;text-transform:uppercase;padding:5px 11px;border-radius:7px;background:var(--glass-2);color:var(--primary-lt);border:1px solid var(--border);font-family:'JetBrains Mono',monospace}
+.panel-sub{font-size:12px;color:var(--text-3);margin-bottom:14px;line-height:1.65}
+.panel-sub code{background:var(--glass-2);padding:2px 8px;border-radius:5px;font-size:11px;color:var(--primary-lt);font-family:'JetBrains Mono',monospace;border:1px solid var(--border)}
+.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);padding:12px 20px;background:rgba(18,12,31,0.96);border:1px solid var(--border-2);border-radius:14px;color:#fff;font-size:13px;font-weight:700;z-index:500;opacity:0;transition:all .3s ease;pointer-events:none;max-width:90vw;box-shadow:0 12px 32px rgba(0,0,0,0.5)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.ok{border-color:rgba(34,197,94,0.4)}
+.toast.error{border-color:rgba(239,68,68,0.4)}
+.login-overlay{position:fixed;inset:0;z-index:900;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(7,5,13,0.92);backdrop-filter:blur(20px)}
+.login-overlay.show{display:flex}
+.login-card{width:100%;max-width:380px;padding:32px 26px;background:rgba(18,12,31,0.92);border:1px solid var(--border-2);border-radius:26px;box-shadow:0 20px 60px rgba(0,0,0,0.6);text-align:center}
+.login-card .lock-logo{width:64px;height:64px;margin:0 auto 16px;border-radius:18px;background:linear-gradient(135deg,var(--primary),var(--primary-dp));display:grid;place-items:center}
+.login-card .lock-logo svg{width:28px;height:28px;color:#fff}
+.login-card h1{font-size:22px;font-weight:900;margin-bottom:6px;background:linear-gradient(135deg,#fff,var(--primary-lt));-webkit-background-clip:text;background-clip:text;color:transparent}
+.login-card p{color:var(--text-2);font-size:13px;margin-bottom:24px}
+.login-card .field{text-align:left}
+.login-error{color:#FCA5A5;font-size:12.5px;min-height:16px;margin:10px 0 6px;text-align:center}
+@media (min-width:640px){
+  .app-main{padding:20px 24px calc(var(--nav-h) + 60px)}
+  .stats-grid{grid-template-columns:repeat(3,1fr)}
+  .key-grid{grid-template-columns:repeat(auto-fill,minmax(370px,1fr))}
+  .device-grid{grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
+  .grid-2{grid-template-columns:1fr 1fr}
+  .span-2{grid-column:span 2}
+  .modal-overlay{padding:20px;align-items:center}
+  .modal{border-radius:22px;max-height:92vh;margin:auto}
+  .toast{bottom:120px}
+}
+</style>
+</head>
+<body>
+
+<div class="splash" id="splash">
+  <div style="text-align:center">
+    <div class="splash-logo">AX</div>
+    <div class="splash-text">AURA XITERS</div>
+  </div>
+</div>
+
+<script>
+window.__dwBootCalled = false;
+window.addEventListener("error", function(e){ console.error("[AX Global Error]", e && e.message, e && e.error); });
+window.addEventListener("unhandledrejection", function(e){ console.error("[AX Promise Rejection]", e && e.reason); });
+setTimeout(function(){
+  if (!window.__dwBootCalled) {
+    var s = document.getElementById("splash");
+    if (s && s.parentNode) { s.parentNode.removeChild(s); }
+    var lo = document.getElementById("loginOverlay");
+    if (lo) lo.classList.add("show");
+  }
+}, 6000);
+</script>
+
+<div class="ambient"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+
+<header class="app-header">
+  <div class="brand">
+    <div class="brand-logo" id="brandLogoPreview">AX</div>
+    <div class="brand-text">
+      <div class="brand-name" id="brandNamePreview">AURA XITERS ADMIN</div>
+      <div class="brand-sub" id="brandSubPreview">CONTROL PANEL</div>
+    </div>
+  </div>
+  <div class="header-spacer"></div>
+  <div class="header-right">
+    <div class="sync-badge" id="syncBadge"><span id="syncBadgeText">LIVE</span></div>
+    <button class="icon-btn" id="refreshBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a9 9 0 11-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></button>
+    <button class="avatar" id="avatarBtn">A</button>
+  </div>
+</header>
+
+<main class="app-main">
+
+  <!-- DASHBOARD -->
+  <section class="tab-panel active" data-tab="dashboard">
+    <div class="stats-grid" id="statsGrid"></div>
+    <div class="section-title">⚡ RECENT KEYS</div>
+    <div class="card"><div id="recentKeys"></div></div>
+    <div class="section-title">📋 RECENT ACTIVITY</div>
+    <div class="card"><div id="recentActivity"></div></div>
+  </section>
+
+  <!-- KEYS -->
+  <section class="tab-panel" data-tab="keys">
+    <div class="toolbar">
+      <div class="search-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="text" id="searchInput" placeholder="Search key or user…"></div>
+      <button class="btn btn-ghost btn-sm" id="syncStatusBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8"/><path d="M3 3v5h5"/></svg></button>
+      <button class="btn btn-primary btn-sm" id="openCreateBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> NEW KEY</button>
+    </div>
+    <div class="chips" id="filterChips">
+      <button class="chip active" data-filter="ALL">All <span class="chip-count" data-count="ALL">0</span></button>
+      <button class="chip" data-filter="ACTIVE">Active <span class="chip-count" data-count="ACTIVE">0</span></button>
+      <button class="chip" data-filter="PAUSED">Paused <span class="chip-count" data-count="PAUSED">0</span></button>
+      <button class="chip" data-filter="EXPIRED">Expired <span class="chip-count" data-count="EXPIRED">0</span></button>
+      <button class="chip" data-filter="BLOCKED">Blocked <span class="chip-count" data-count="BLOCKED">0</span></button>
+      <button class="chip" data-filter="BANNED">Banned <span class="chip-count" data-count="BANNED">0</span></button>
+      <button class="chip" data-filter="DISABLED">Disabled <span class="chip-count" data-count="DISABLED">0</span></button>
+    </div>
+    <div class="key-grid" id="keysGrid"></div>
+    <div class="empty hidden" id="keysEmpty"><p>No keys found</p></div>
+  </section>
+
+  <!-- CREATE -->
+  <section class="tab-panel" data-tab="create">
+    <div class="card">
+      <div class="panel-head"><h3>Generate New Key</h3><span class="pill">AUTO</span></div>
+      <div class="gen-row">
+        <div class="gen-input-wrap"><input type="text" id="cKey" placeholder="XXXX-XXXX-XXXX" maxlength="20" autocomplete="off" spellcheck="false"></div>
+        <button class="gen-btn" id="genKeyBtn" title="Generate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1" fill="currentColor"/><circle cx="16" cy="8" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8" cy="16" r="1" fill="currentColor"/><circle cx="16" cy="16" r="1" fill="currentColor"/></svg></button>
+      </div>
+      <div class="gen-actions">
+        <button class="gen-chip" data-gen-prefix="FIXA">FIXA-XXXX</button>
+        <button class="gen-chip" data-gen-prefix="DRIP">DRIP-XXXX</button>
+        <button class="gen-chip" data-gen-prefix="VIP">VIP-XXXX</button>
+        <button class="gen-chip" id="copyKeyBtn">📋 COPY</button>
+      </div>
+      <div class="gen-hint">Only A-Z, 0-9, dash & underscore allowed</div>
+    </div>
+
+    <div class="card">
+      <div class="panel-head"><h3>User Details</h3></div>
+      <div class="grid-2">
+        <label class="field"><span class="field-label">USERNAME *</span><input type="text" id="cUsername" placeholder="Enter username" autocomplete="off"></label>
+        <label class="field"><span class="field-label">FIRST DEVICE ID</span><input type="text" id="cFirstDevice" placeholder="optional"></label>
+      </div>
+      <label class="field"><span class="field-label">MAX DEVICES *</span><input type="number" id="cMaxDevices" value="1" min="1" max="999"></label>
+    </div>
+
+    <div class="card">
+      <div class="panel-head"><h3>⏱️ Validity Duration</h3></div>
+      <div class="dur-tabs">
+        <button class="dur-tab" data-unit="minutes">Minutes</button>
+        <button class="dur-tab" data-unit="hours">Hours</button>
+        <button class="dur-tab active" data-unit="months">Months</button>
+      </div>
+      <div class="quick-durations" id="createDurations"></div>
+      <div class="grid-2">
+        <label class="field"><span class="field-label">VALUE *</span><input type="number" id="cDurationValue" value="1" min="1" max="9999"></label>
+        <label class="field"><span class="field-label">UNIT *</span><select id="cDurationUnit"><option value="minutes">Minutes</option><option value="hours">Hours</option><option value="months" selected>Months</option></select></label>
+      </div>
+      <div class="info-banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div>Timer <strong>PAUSED</strong> rahega — first login pe <strong>turant auto-start</strong> ho jayega.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="panel-head"><h3>Status</h3></div>
+      <div class="grid-2">
+        <label class="field"><span class="field-label">STATUS</span><select id="cStatus"><option value="ACTIVE">ACTIVE</option><option value="INACTIVE">INACTIVE</option></select></label>
+        <label class="field"><span class="field-label">KEY STATUS</span><select id="cKeyStatus"><option value="ACTIVE">ACTIVE</option><option value="BLOCKED">BLOCKED</option><option value="BANNED">BANNED</option><option value="DISABLED">DISABLED</option></select></label>
+      </div>
+    </div>
+
+    <div class="form-error" id="createError"></div>
+    <button class="btn btn-primary btn-block" id="createSubmit" style="margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> CREATE KEY</button>
+    <button class="btn btn-ghost btn-block" id="createReset" style="margin-bottom:20px">RESET</button>
+  </section>
+
+  <!-- NOTIFICATIONS -->
+  <section class="tab-panel" data-tab="notif">
+    <div class="card">
+      <div class="panel-head"><h3>🔔 Send Notification</h3><span class="pill">BROADCAST</span></div>
+      <p class="panel-sub">Users ko system notification aur in-app popup bhejo.</p>
+
+      <label class="field"><span class="field-label">TITLE *</span><input type="text" id="notifTitle" maxlength="60" placeholder="New Update Available"></label>
+      <label class="field"><span class="field-label">MESSAGE *</span><textarea id="notifMessage" rows="3" maxlength="300" placeholder="Aapka message yaha likhe…"></textarea></label>
+
+      <div class="grid-2">
+        <label class="field"><span class="field-label">TYPE</span>
+          <select id="notifType">
+            <option value="info">ℹ️ Info (Blue)</option>
+            <option value="success">✅ Success (Green)</option>
+            <option value="warning">⚠️ Warning (Orange)</option>
+            <option value="error">❌ Error (Red)</option>
+            <option value="update" selected>🚀 Update (Purple)</option>
+          </select>
+        </label>
+        <label class="field"><span class="field-label">TARGET</span>
+          <select id="notifTarget"><option value="all">🌐 All Users</option></select>
+        </label>
+      </div>
+
+      <label class="field"><span class="field-label">IMAGE URL (Optional)</span><input type="text" id="notifImage" placeholder="https://..."></label>
+
+      <div class="grid-2">
+        <label class="field"><span class="field-label">ACTION URL (Optional)</span><input type="text" id="notifActionUrl" placeholder="https://..."></label>
+        <label class="field"><span class="field-label">ACTION LABEL</span><input type="text" id="notifActionLabel" maxlength="20" placeholder="OPEN"></label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info"><div class="toggle-title">📱 System Notification</div><div class="toggle-desc">Device notification tray me dikhega</div></div>
+        <div class="switch on" id="notifSystemSw"></div>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info"><div class="toggle-title">💬 In-App Popup</div><div class="toggle-desc">App ke andar popup dialog</div></div>
+        <div class="switch on" id="notifPopupSw"></div>
+      </div>
+
+      <label class="field"><span class="field-label">EXPIRES IN</span>
+        <select id="notifExpiry">
+          <option value="0">Never</option>
+          <option value="1">1 Hour</option>
+          <option value="24">24 Hours</option>
+          <option value="168">7 Days</option>
+          <option value="720">30 Days</option>
+        </select>
+      </label>
+
+      <div class="form-error" id="notifError"></div>
+      <div class="form-success" id="notifSuccess"></div>
+
+      <button class="btn btn-primary btn-block" id="notifSendBtn" style="margin-top:14px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        SEND NOTIFICATION
+      </button>
+      <button class="btn btn-danger btn-block" id="notifClearBtn" style="margin-top:10px">🗑 CLEAR CURRENT</button>
+    </div>
+
+    <div class="card">
+      <div class="panel-head"><h3>📜 History</h3><span class="pill" id="notifHistoryCount">0</span></div>
+      <p class="panel-sub">Purane notifications — delete ya re-send kar sakte ho.</p>
+      <div id="notifHistoryList"></div>
+      <div class="empty hidden" id="notifHistoryEmpty" style="padding:24px 12px"><p>No notifications sent yet</p></div>
+    </div>
+  </section>
+
+  <!-- BRANDING -->
+  <section class="tab-panel" data-tab="branding">
+    <div class="card">
+      <div class="panel-head"><h3>App Branding</h3><span class="pill">LIVE</span></div>
+      <div class="seg-tabs" id="brandingTabs">
+        <button class="seg-tab active" data-btab="identity">🎨 IDENTITY</button>
+        <button class="seg-tab" data-btab="loginscreen">🔐 LOGIN</button>
+        <button class="seg-tab" data-btab="permissions">🔔 PERMISSIONS</button>
+        <button class="seg-tab" data-btab="youtube">▶️ YT</button>
+        <button class="seg-tab" data-btab="telegram">📨 TG</button>
+        <button class="seg-tab" data-btab="setup">🎬 SETUP</button>
+        <button class="seg-tab" data-btab="support">💬 SUPPORT</button>
+        <button class="seg-tab" data-btab="popups">🔔 POPUPS</button>
+      </div>
+
+      <div class="brand-tab" data-btab-content="identity">
+        <div class="grid-2">
+          <label class="field"><span class="field-label">APP NAME *</span><input type="text" id="brandAppName" maxlength="24" placeholder="AURA XITERS"></label>
+          <label class="field"><span class="field-label">EDITION</span><input type="text" id="brandEdition" maxlength="30" placeholder="FREE FIRE EDITION"></label>
+          <label class="field"><span class="field-label">VERSION</span><input type="text" id="brandVersion" maxlength="16" placeholder="V2.0"></label>
+          <label class="field"><span class="field-label">TAGLINE</span><input type="text" id="brandTagline" maxlength="40" placeholder="PREMIUM SECURE PORTAL"></label>
+        </div>
+        <div class="field" style="margin-top:14px">
+          <label class="field-label">Brand Logo</label>
+          <div class="logo-upload-wrap">
+            <div class="brand-logo-circle" id="brandLogoPreview2"><span class="logo-placeholder" id="brandLogoPlaceholder">🖼️</span><img id="brandLogoPreviewImg" src="" alt="" style="display:none"></div>
+            <div class="logo-upload-actions">
+              <div class="logo-upload-btns">
+                <button type="button" class="logo-mini-btn primary" id="brandLogoUploadBtn">📤 UPLOAD</button>
+                <button type="button" class="logo-mini-btn danger" id="brandLogoRemoveBtn">REMOVE</button>
+              </div>
+              <small style="font-size:10.5px;color:var(--text-3)">PNG · JPG · WEBP · Max 500 KB</small>
+            </div>
+          </div>
+          <input type="file" id="brandLogoFile" accept="image/*" style="display:none">
+          <input type="text" id="brandLogoUrl" placeholder="https://..." style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:11.5px">
+        </div>
+        <div class="field"><label class="field-label">Accent Color</label><div class="color-pair"><input type="color" id="brandAccentPicker" value="#8B5CF6"><input type="text" id="brandAccentHex" placeholder="#8B5CF6" maxlength="7"></div></div>
+      </div>
+
+      <div class="brand-tab hidden" data-btab-content="loginscreen">
+        <div class="grid-2">
+          <label class="field span-2"><span class="field-label">LOGIN TITLE</span><input type="text" id="brandLoginTitle" maxlength="30"></label>
+          <label class="field span-2"><span class="field-label">LOGIN SUBTITLE</span><input type="text" id="brandLoginSub" maxlength="60"></label>
+          <label class="field"><span class="field-label">INPUT HINT</span><input type="text" id="brandHintText" maxlength="30"></label>
+          <label class="field"><span class="field-label">LOADING TEXT</span><input type="text" id="brandLoadingText" maxlength="30"></label>
+          <label class="field"><span class="field-label">SUCCESS TEXT</span><input type="text" id="brandSuccessText" maxlength="30"></label>
+          <label class="field"><span class="field-label">MORE OPTIONS LABEL</span><input type="text" id="brandMoreLabel" maxlength="24"></label>
+        </div>
+        <div class="field" style="margin-top:14px"><span class="field-label">FOOTER TEXT</span><input type="text" id="brandFooterText" maxlength="60"></div>
+      </div>
+
+      <div class="brand-tab hidden" data-btab-content="permissions">
+        <div class="grid-2">
+          <label class="field span-2"><span class="field-label">NOTIFICATION TITLE</span><input type="text" id="permNotifTitle" maxlength="40"></label>
+          <label class="field span-2"><span class="field-label">NOTIFICATION DESC</span><textarea id="permNotifDesc" rows="2"></textarea></label>
+          <label class="field span-2"><span class="field-label">OVERLAY TITLE</span><input type="text" id="permOverTitle" maxlength="40"></label>
+          <label class="field span-2"><span class="field-label">OVERLAY DESC</span><textarea id="permOverDesc" rows="2"></textarea></label>
+          <label class="field span-2"><span class="field-label">BATTERY TITLE</span><input type="text" id="permBattTitle" maxlength="40"></label>
+          <label class="field span-2"><span class="field-label">BATTERY DESC</span><textarea id="permBattDesc" rows="2"></textarea></label>
+          <label class="field span-2"><span class="field-label">SHIZUKU TITLE</span><input type="text" id="permShzTitle" maxlength="40"></label>
+          <label class="field span-2"><span class="field-label">SHIZUKU DESC</span><textarea id="permShzDesc" rows="2"></textarea></label>
+          <label class="field span-2"><span class="field-label">VPN TITLE</span><input type="text" id="permVpnTitle" maxlength="40"></label>
+          <label class="field span-2"><span class="field-label">VPN DESC</span><textarea id="permVpnDesc" rows="2"></textarea></label>
+        </div>
+      </div>
+
+      <div class="brand-tab hidden" data-btab-content="youtube">
+        <div class="grid-2">
+          <label class="field span-2"><span class="field-label">CHANNEL NAME</span><input type="text" id="brandYtName" maxlength="40"></label>
+          <label class="field span-2"><span class="field-label">CHANNEL URL</span><input type="text" id="brandYtUrl"></label>
+          <label class="field span-2"><span class="field-label">DESCRIPTION</span><textarea id="brandYtDesc" rows="2"></textarea></label>
+          <label class="field span-2"><span class="field-label">BUTTON TEXT</span><input type="text" id="brandYtBtn" maxlength="24"></label>
+        </div>
+      </div>
+
+      <div class="brand-tab hidden" data-btab-content="telegram">
+        <div class="grid-2">
+          <label class="field span-2"><span class="field-label">CHANNEL NAME</span><input type="text" id="brandTgName" maxlength="40"></label>
+          <label class="field span-2"><span class="field-label">CHANNEL URL</span><input type="text" id="brandTgUrl"></label>
+          <label class="field span-2"><span class="field-label">DESCRIPTION</span><textarea id="brandTgDesc" rows="2"></textarea></label>
+          <label class="field span-2"><span class="field-label">BUTTON TEXT</span><input type="text" id="brandTgBtn" maxlength="24"></label>
+        </div>
+      </div>
+
+      <div class="brand-tab hidden" data-btab-content="setup">
+        <div class="grid-2">
+          <label class="field span-2"><span class="field-label">TITLE</span><input type="text" id="brandSetupTitle" maxlength="40"></label>
+          <label class="field span-2"><span class="field-label">VIDEO URL</span><input type="text" id="brandSetupUrl"></label>
+          <label class="field span-2"><span class="field-label">DESCRIPTION</span><textarea id="brandSetupDesc" rows="2"></textarea></label>
+        </div>
+      </div>
+
+      <div class="brand-tab hidden" data-btab-content="support">
+        <div class="grid-2">
+          <label class="field span-2"><span class="field-label">TITLE</span><input type="text" id="brandSupportTitle" maxlength="40"></label>
+          <label class="field span-2"><span class="field-label">DESCRIPTION</span><input type="text" id="brandSupportDesc" maxlength="80"></label>
+          <label class="field span-2"><span class="field-label">SUPPORT URL</span><input type="text" id="brandSupportUrl"></label>
+        </div>
+      </div>
+
+      <div class="brand-tab hidden" data-btab-content="popups">
+        <div class="setting-group-title">🛠️ Maintenance</div>
+        <div class="toggle-row"><div class="toggle-info"><div class="toggle-title">Enable Maintenance Popup</div></div><div class="switch" id="brandMaintEnabledSw"></div></div>
+        <div class="grid-2">
+          <label class="field span-2"><span class="field-label">TITLE</span><input type="text" id="brandMaintTitle" maxlength="40"></label>
+          <label class="field span-2"><span class="field-label">MESSAGE</span><textarea id="brandMaintMessage" rows="2"></textarea></label>
+          <label class="field"><span class="field-label">END TIME</span><input type="text" id="brandMaintEndTime"></label>
+          <label class="field"><span class="field-label">BUTTON TEXT</span><input type="text" id="brandMaintBtn" maxlength="20"></label>
+        </div>
+        <div class="setting-group-title" style="margin-top:18px">🚀 Update</div>
+        <div class="toggle-row"><div class="toggle-info"><div class="toggle-title">Enable Update Popup</div></div><div class="switch" id="brandUpdEnabledSw"></div></div>
+        <div class="toggle-row"><div class="toggle-info"><div class="toggle-title">Force Update</div></div><div class="switch" id="brandUpdForceSw"></div></div>
+        <div class="grid-2">
+          <label class="field"><span class="field-label">VERSION</span><input type="text" id="brandUpdVersion" maxlength="16"></label>
+          <label class="field"><span class="field-label">DOWNLOAD URL</span><input type="text" id="brandUpdUrl"></label>
+          <label class="field span-2"><span class="field-label">TITLE</span><input type="text" id="brandUpdTitle" maxlength="40"></label>
+          <label class="field span-2"><span class="field-label">MESSAGE</span><textarea id="brandUpdMessage" rows="2"></textarea></label>
+          <label class="field span-2"><span class="field-label">BUTTON TEXT</span><input type="text" id="brandUpdBtn" maxlength="24"></label>
+        </div>
+      </div>
+
+      <div class="form-error" id="brandingError"></div>
+      <div class="form-success" id="brandingSuccess"></div>
+      <div class="form-actions"><button class="btn btn-ghost" id="brandingReload">RELOAD</button><button class="btn btn-primary" id="brandingSave">💾 SAVE ALL</button></div>
+    </div>
+  </section>
+
+  <!-- APP -->
+  <section class="tab-panel" data-tab="app">
+    <div class="card">
+      <div class="panel-head"><h3>App Global</h3><span class="pill">FIXA_CONFIG/global</span></div>
+      <div class="grid-2">
+        <label class="field"><span class="field-label">APP NAME</span><input type="text" id="cfgAppName" placeholder="AURA XITERS"></label>
+        <label class="field"><span class="field-label">SUBTITLE</span><input type="text" id="cfgAppSubtitle" placeholder="PREMIUM EDITION"></label>
+      </div>
+      <label class="field" style="margin-top:12px"><span class="field-label">DESTINATION PATH</span><input type="text" id="cfgDestPath" placeholder="/storage/emulated/0/Android/data/..."></label>
+      <div class="field">
+        <label class="field-label">App Logo</label>
+        <div class="logo-upload-wrap">
+          <div class="brand-logo-circle" id="cfgLogoPreview"><span class="logo-placeholder" id="cfgLogoPlaceholder">🖼️</span><img id="cfgLogoPreviewImg" src="" alt="" style="display:none"></div>
+          <div class="logo-upload-actions"><div class="logo-upload-btns"><button type="button" class="logo-mini-btn primary" id="cfgLogoUploadBtn">📤 UPLOAD</button><button type="button" class="logo-mini-btn danger" id="cfgLogoRemoveBtn">REMOVE</button></div></div>
+        </div>
+        <input type="file" id="cfgLogoFile" accept="image/*" style="display:none">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="panel-head"><h3>Floating HUD</h3></div>
+      <div class="toggle-row" style="margin-bottom:0">
+        <div class="toggle-info"><div class="toggle-title">Enable Floating HUD</div><div class="toggle-desc">Overlay panel dikhega game ke upar</div></div>
+        <div class="switch" id="cfgFloatingSw"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="panel-head"><h3>🚀 Launch Target</h3></div>
+      <div class="grid-2">
+        <label class="field"><span class="field-label">LAUNCH PACKAGE</span><select id="cfgLaunchPackage"><option value="com.dts.freefireth">Free Fire (com.dts.freefireth)</option><option value="com.dts.freefiremax">Free Fire MAX (com.dts.freefiremax)</option></select></label>
+        <label class="field"><span class="field-label">LAUNCH LABEL</span><input type="text" id="cfgLaunchLabel" placeholder="LAUNCH FREE FIRE" maxlength="30"></label>
+      </div>
+    </div>
+
+    <div class="form-success" id="cfgGlobalSuccess"></div>
+    <div class="form-error" id="cfgGlobalError"></div>
+    <button class="btn btn-primary btn-block" id="cfgGlobalSave" style="margin-bottom:14px">SAVE APP CONFIG</button>
+
+    <div class="card">
+      <div class="panel-head"><h3>🎮 Mod Switches</h3><span class="pill" id="switchCountPill">0</span></div>
+      <p class="panel-sub">Har switch ka label, zip URL, extract path aur delete-files list set karo.</p>
+      <div id="switchBlocksContainer"></div>
+      <div class="empty hidden" id="switchEmpty" style="padding:32px 16px"><p>No switches yet</p></div>
+      <button class="add-row" id="addSwitchBtn">+ Add Switch</button>
+      <div class="form-success" id="cfgSwitchesSuccess"></div>
+      <div class="form-error" id="cfgSwitchesError"></div>
+      <button class="btn btn-primary btn-block" id="cfgSwitchesSave" style="margin-top:14px">SAVE SWITCHES</button>
+    </div>
+  </section>
+
+  <!-- GAMES -->
+  <section class="tab-panel" data-tab="games">
+    <div class="section-title">Games</div>
+    <div class="card">
+      <div class="panel-head"><h3>Game List</h3><span class="pill" id="gameCountPill">0</span></div>
+      <p class="panel-sub">Add/remove games. Android app auto-detect installed version.</p>
+      <div id="gameList"></div>
+      <button class="add-row" id="addGameBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Game</button>
+      <div class="form-success" id="gamesSuccess"></div>
+      <div class="form-error" id="gamesError"></div>
+      <button class="btn btn-primary btn-block" id="gamesSave" style="margin-top:14px">SAVE GAMES</button>
+    </div>
+  </section>
+
+  <!-- SERVERS -->
+  <section class="tab-panel" data-tab="servers">
+    <div class="section-title">VPN Servers</div>
+    <div class="card">
+      <div class="panel-head"><h3>Server List</h3><span class="pill" id="serverCountPill">0</span></div>
+      <p class="panel-sub">Add/remove servers. Latency auto-measured.</p>
+      <div id="serverList"></div>
+      <button class="add-row" id="addServerBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Server</button>
+      <div class="form-success" id="serversSuccess"></div>
+      <div class="form-error" id="serversError"></div>
+      <button class="btn btn-primary btn-block" id="serversSave" style="margin-top:14px">SAVE SERVERS</button>
+    </div>
+  </section>
+
+  <!-- DEVICES -->
+  <section class="tab-panel" data-tab="devices">
+    <div class="section-title">Device-Locked Keys</div>
+    <div class="card">
+      <div class="panel-head"><h3>Devices</h3><span class="pill" id="devicePill">0</span></div>
+      <div class="device-grid" id="deviceGrid"></div>
+      <div class="empty hidden" id="deviceEmpty"><p>No device locks</p></div>
+    </div>
+  </section>
+
+  <!-- ACTIVITY -->
+  <section class="tab-panel" data-tab="activity">
+    <div class="section-title">Activity Log</div>
+    <div class="card">
+      <div class="panel-head"><h3>Recent Events</h3><span class="pill" id="activityCount">0</span></div>
+      <div class="activity-list" id="activityList"></div>
+      <div class="empty hidden" id="activityEmpty"><p>No activity yet</p></div>
+    </div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="tab-panel" data-tab="settings">
+    <div class="section-title">Admin Profile</div>
+    <div class="card">
+      <div class="field"><label class="field-label">Display Name</label><input type="text" id="settingsName" placeholder="Admin"></div>
+      <div class="field"><label class="field-label">Email</label><input type="text" id="settingsEmail" disabled style="opacity:.6"></div>
+      <div class="field"><label class="field-label">Theme</label>
+        <div class="theme-grid" id="themeGrid">
+          <button class="theme-opt" data-theme-name="dark"><div class="theme-opt-swatch"><span style="background:#07050D"></span><span style="background:#8B5CF6"></span><span style="background:#C084FC"></span></div><div class="theme-opt-label">Violet</div><div class="theme-opt-check">✓</div></button>
+          <button class="theme-opt" data-theme-name="light"><div class="theme-opt-swatch"><span style="background:#f5f3ff"></span><span style="background:#8b5cf6"></span><span style="background:#d946ef"></span></div><div class="theme-opt-label">Light</div><div class="theme-opt-check">✓</div></button>
+          <button class="theme-opt" data-theme-name="neon"><div class="theme-opt-swatch"><span style="background:#0a0014"></span><span style="background:#d946ef"></span><span style="background:#f472b6"></span></div><div class="theme-opt-label">Neon</div><div class="theme-opt-check">✓</div></button>
+          <button class="theme-opt" data-theme-name="cyber"><div class="theme-opt-swatch"><span style="background:#050019"></span><span style="background:#6366f1"></span><span style="background:#22d3ee"></span></div><div class="theme-opt-label">Cyber</div><div class="theme-opt-check">✓</div></button>
+          <button class="theme-opt" data-theme-name="mono"><div class="theme-opt-swatch"><span style="background:#0a0a0a"></span><span style="background:#e5e5e5"></span><span style="background:#fafafa"></span></div><div class="theme-opt-label">Mono</div><div class="theme-opt-check">✓</div></button>
+        </div>
+      </div>
+      <button class="btn btn-danger btn-block" id="settingsSignOut" style="margin-top:14px">Sign Out</button>
+    </div>
+  </section>
+
+</main>
+
+<div class="bottom-dock-wrap">
+  <nav class="bottom-dock">
+    <button class="dock-btn active" data-tab="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></button>
+    <button class="dock-btn" data-tab="keys"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3L21 2m-3 0h3v3"/></svg></button>
+    <button class="dock-btn" data-tab="create"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></button>
+    <button class="dock-btn" data-tab="notif"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
+    <button class="dock-btn" data-tab="branding"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="15.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="16.5" r="2.5"/></svg></button>
+    <button class="dock-btn" id="moreBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/><circle cx="18" cy="12" r="1.5"/></svg></button>
+  </nav>
+</div>
+
+<div class="more-sheet" id="moreSheet">
+  <div class="more-content">
+    <div class="more-handle"></div>
+    <div class="more-title">More Options</div>
+    <div class="more-grid">
+      <button class="more-tile" data-tab="app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 4v16"/><circle cx="15.5" cy="12" r="2.5"/></svg><span>App</span></button>
+      <button class="more-tile" data-tab="games"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg><span>Games</span></button>
+      <button class="more-tile" data-tab="servers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Servers</span></button>
+      <button class="more-tile" data-tab="devices"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg><span>Devices</span></button>
+      <button class="more-tile" data-tab="activity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l2.5-7 4 14L16 12h5"/></svg><span>Activity</span></button>
+      <button class="more-tile" data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1l2.1-2.1M17 7l2.1-2.1"/></svg><span>Settings</span></button>
+    </div>
+    <div class="admin-mini">
+      <div class="avatar" id="adminAvatar">A</div>
+      <div class="admin-mini-text"><div id="adminMiniName">Admin</div><small id="adminMiniEmail">—</small></div>
+      <button class="icon-btn" id="logoutBtn" style="background:var(--red-soft);border-color:rgba(239,68,68,.3);color:var(--red)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="confirmModal"><div class="modal"><div class="modal-head"><h3 id="confirmTitle">Confirm</h3><button class="modal-close" data-close>&times;</button></div><div class="modal-body"><p class="confirm-msg" id="confirmMessage"></p></div><div class="modal-foot"><button class="btn btn-ghost" id="confirmCancel">CANCEL</button><button class="btn btn-danger" id="confirmOk">CONFIRM</button></div></div></div>
+<div class="modal-overlay" id="promptModal"><div class="modal"><div class="modal-head"><h3 id="promptTitle">Input</h3><button class="modal-close" data-close>&times;</button></div><div class="modal-body"><p class="confirm-msg" id="promptMessage" style="margin-bottom:14px"></p><label class="field" style="margin:0"><span class="field-label" id="promptLabel">VALUE</span><input type="text" id="promptInput"></label></div><div class="modal-foot"><button class="btn btn-ghost" id="promptCancel">CANCEL</button><button class="btn btn-primary" id="promptOk">OK</button></div></div></div>
+<div class="modal-overlay" id="viewModal"><div class="modal"><div class="modal-head"><h3>Key Details</h3><button class="modal-close" data-close>&times;</button></div><div class="modal-body" id="viewModalBody"></div><div class="modal-foot"><button class="btn btn-ghost" data-close>CLOSE</button><button class="btn btn-primary" id="viewToActivity">FULL ACTIVITY</button></div></div></div>
+<div class="modal-overlay" id="reactivateModal"><div class="modal"><div class="modal-head"><h3>⚡ Reactivate</h3><button class="modal-close" data-close>&times;</button></div><div class="modal-body"><div class="key-banner" id="reactivateKeyBanner">—</div><p class="confirm-msg">Set this key to <strong style="color:var(--green)">ACTIVE</strong>? Timer auto-reset ho jayega.</p><div class="form-error" id="reactivateError"></div></div><div class="modal-foot"><button class="btn btn-ghost" data-close>CANCEL</button><button class="btn btn-success" id="reactivateSave">SET ACTIVE</button></div></div></div>
+<div class="modal-overlay" id="keyActivityModal"><div class="modal"><div class="modal-head"><h3>Key Activity</h3><button class="modal-close" data-close>&times;</button></div><div class="modal-body"><div class="key-banner" id="keyActivityBanner">—</div><div class="panel-head" style="margin-bottom:8px"><h3 style="font-size:10px">Recent Events</h3><span class="pill" id="keyActivityCount">0</span></div><div id="keyActivityList" class="key-activity-list"></div><div class="empty hidden" id="keyActivityEmpty" style="padding:24px 12px"><p style="font-size:11px">No activity</p></div></div><div class="modal-foot"><button class="btn btn-ghost" data-close>CLOSE</button></div></div></div>
+<div class="modal-overlay" id="devicesModal"><div class="modal"><div class="modal-head"><h3>Manage Devices</h3><button class="modal-close" data-close>&times;</button></div><div class="modal-body"><div class="key-banner" id="devicesKeyBanner">—</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px"><div style="padding:11px;border-radius:10px;background:var(--glass-2);border:1px solid var(--border);text-align:center"><div style="font-size:9px;font-weight:800;text-transform:uppercase;color:var(--text-3);margin-bottom:4px">REG</div><div style="font-size:20px;font-weight:900;font-family:'JetBrains Mono',monospace" id="devicesStatRegistered">0</div></div><div style="padding:11px;border-radius:10px;background:var(--glass-2);border:1px solid var(--border);text-align:center"><div style="font-size:9px;font-weight:800;text-transform:uppercase;color:var(--text-3);margin-bottom:4px">MAX</div><div style="font-size:20px;font-weight:900;font-family:'JetBrains Mono',monospace" id="devicesStatMax">1</div></div><div style="padding:11px;border-radius:10px;background:var(--glass-2);border:1px solid var(--border);text-align:center"><div style="font-size:9px;font-weight:800;text-transform:uppercase;color:var(--text-3);margin-bottom:4px">AVAIL</div><div style="font-size:20px;font-weight:900;font-family:'JetBrains Mono',monospace" id="devicesStatAvailable">1</div></div></div><div style="padding:12px;border-radius:var(--radius-lg);background:var(--glass-2);border:1px solid var(--border);margin-bottom:16px"><div style="font-size:12px;font-weight:700;margin-bottom:8px">Add Device ID</div><div style="display:flex;gap:8px"><input type="text" id="newDeviceId" placeholder="Device ID…" style="flex:1;padding:10px 13px;border-radius:10px;background:var(--bg-2);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;min-width:0"><button class="btn btn-primary" id="addDeviceBtn">ADD</button></div></div><div class="panel-head" style="margin-bottom:8px"><h3>Registered</h3><button class="btn btn-danger sm" id="removeAllDevicesBtn">REMOVE ALL</button></div><div id="deviceManagerList" style="display:flex;flex-direction:column;gap:6px;max-height:280px;overflow-y:auto"></div></div><div class="modal-foot"><button class="btn btn-ghost" data-close>CLOSE</button></div></div></div>
+
+<div class="toast" id="toast"></div>
+
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-card">
+    <div class="lock-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+    <h1>AURA XITERS ADMIN</h1>
+    <p>Sign in to access control panel</p>
+    <div class="field"><label class="field-label">Email</label><input type="email" id="loginEmail" placeholder="admin@auraxiters.app"></div>
+    <div class="field"><label class="field-label">Password</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
+    <div class="login-error" id="loginError"></div>
+    <button class="btn btn-primary btn-block" id="loginBtn">Sign In</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getDatabase, ref, onValue, set, update, remove, push, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD19d4PV9n5G7gxJV0RuHyFlW7NiPIEkgs",
+  authDomain: "drip-wire-new.firebaseapp.com",
+  databaseURL: "https://drip-wire-new-default-rtdb.firebaseio.com",
+  projectId: "drip-wire-new",
+  storageBucket: "drip-wire-new.firebasestorage.app",
+  messagingSenderId: "169406514743",
+  appId: "1:799262845780:web:46df82eafeff0f5b98b6c1",
+  measurementId: "G-ZZHPWWE01X"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+const USERS_NODE = "FIXA_MODS";
+const CONFIG_NODE = "FIXA_CONFIG";
+const ACTIVITY_NODE = "ADMIN_ACTIVITY";
+const NOTIF_PATH = "FIXA_CONFIG/notifications";
+const CACHE_KEY = "ax_admin_cache_v4";
+const MAX_ACTIVITY = 400;
+const MONTH_MS = 30 * 24 * 60 * 60 * 1000;
+
+let allKeys = {}, activityLog = {};
+let globalConfig = { appName:"AURA XITERS", appSubtitle:"PREMIUM EDITION", destPath:"", logoUrl:"", logoBase64:"" };
+let switchesConfig = {};
+let controlsConfig = { launchPackage:"com.dts.freefireth", launchLabel:"LAUNCH FREE FIRE", floatingEnabled:true };
+let brandingConfig = { appName:"AURA XITERS", accentColor:"#8B5CF6" };
+let gamesConfig = {}, serversConfig = {};
+let notifHistory = {}, currentNotif = null;
+let currentFilter = "ALL", currentSearch = "";
+let viewingKey = null, devicesKey = null, reactivateKey = null, activityKey = null;
+let sessionStartTs = null;
+let syncInProgress = false;
+const autoStartProcessing = new Set();
+const syncCooldown = new Set();
+let firebaseReady = false;
+
+const lastLoginSnapshot = new Map();
+const autoStartToastQueue = [];
+let autoStartToastTimer = null;
+
+const editingState = { switches: false, games: false, servers: false, global: false, branding: false };
+
+const settings = {
+  adminName: localStorage.getItem("fm_adminName") || "Admin",
+  theme: localStorage.getItem("fm_theme") || "dark",
+  confirmations: (localStorage.getItem("fm_confirm") ?? "on") === "on"
+};
+
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pad = n => String(n).padStart(2,"0");
+const hasOwn = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
+
+function loadCache() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return;
+    const c = JSON.parse(raw);
+    if (c.allKeys) allKeys = c.allKeys;
+    if (c.gamesConfig && Object.keys(c.gamesConfig).length) gamesConfig = c.gamesConfig;
+    if (c.serversConfig && Object.keys(c.serversConfig).length) serversConfig = c.serversConfig;
+    if (c.brandingConfig) brandingConfig = { ...brandingConfig, ...c.brandingConfig };
+    if (c.globalConfig) globalConfig = { ...globalConfig, ...c.globalConfig };
+    if (c.switchesConfig) switchesConfig = c.switchesConfig;
+    if (c.controlsConfig) controlsConfig = { ...controlsConfig, ...c.controlsConfig };
+    if (c.activityLog) activityLog = c.activityLog;
+    if (c.notifHistory) notifHistory = c.notifHistory;
+  } catch(e) {}
+}
+function saveCache() {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({
+      allKeys, activityLog: activityLog.slice(0, 200),
+      gamesConfig, serversConfig, brandingConfig, globalConfig,
+      switchesConfig, controlsConfig, notifHistory, ts: Date.now()
+    }));
+  } catch(e) {}
+}
+
+function parseValidity(str){ if(!str||typeof str!=="string") return null; const m=str.trim().match(/^(\d{2})-(\d{2})-(\d{4})\s+(\d{2}):(\d{2}):(\d{2})$/); if(!m) return null; const d=new Date(+m[3],+m[2]-1,+m[1],+m[4],+m[5],+m[6]); return isNaN(d.getTime())?null:d; }
+function formatValidity(date){ return `${pad(date.getDate())}-${pad(date.getMonth()+1)}-${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`; }
+const isValidValidity = s => parseValidity(s) !== null;
+function durationToMs(v,u){ const n=Number(v); if(!Number.isFinite(n)||n<=0) return 0; switch(u){ case "minutes": return n*60*1000; case "hours": return n*60*60*1000; case "months": return n*MONTH_MS; default: return n*MONTH_MS; } }
+function formatCountdown(ms){ if(ms<=0) return "EXPIRED"; const s=Math.floor(ms/1000); const d=Math.floor(s/86400),h=Math.floor((s%86400)/3600),m=Math.floor((s%3600)/60),sec=s%60; if(d>0) return `${d}d ${h}h ${m}m`; if(h>0) return `${h}h ${m}m ${sec}s`; if(m>0) return `${m}m ${sec}s`; return `${sec}s`; }
+function getDurationConfig(o){ return { value:Number(o?.durationValue)||0, unit:String(o?.durationUnit||"months").toLowerCase() }; }
+function computeTimerState(o){ const cfg=getDurationConfig(o); const durationMs=durationToMs(cfg.value,cfg.unit); if(!o.validity) return {status:"paused",label:"PAUSED",cls:"paused",durationMs}; const end=parseValidity(o.validity); if(!end) return {status:"paused",label:"—",cls:"paused",durationMs}; const remaining=end.getTime()-Date.now(); if(remaining<=0) return {status:"expired",label:"EXPIRED",cls:"expired",durationMs,remaining:0}; const pct=durationMs>0?remaining/durationMs:1; let cls="ok"; if(pct<.15) cls="crit"; else if(pct<.4) cls="warn"; return {status:"active",label:formatCountdown(remaining),cls,durationMs,remaining}; }
+function getMaxDevices(o){ if(!o) return 1; const v=o.maxDevices; if(typeof v==="number"&&v>=1&&v<=999) return Math.floor(v); if(typeof v==="string"&&v.trim()){ const n=parseInt(v,10); if(!isNaN(n)&&n>=1&&n<=999) return n; } return 1; }
+function getDeviceList(o){ return (!o||!o.devices||typeof o.devices!=="object")?[]:Object.keys(o.devices); }
+function getDeviceCount(o){ return getDeviceList(o).length; }
+function getKeyDisplayStatus(o){ const ks=String(o.keyStatus||"").toUpperCase(); const st=String(o.status||"").toUpperCase(); if(ks==="BANNED"||st==="BANNED") return "KEY BANNED"; if(ks==="DISABLED"||st==="DISABLED") return "KEY DISABLED"; if(ks==="BLOCKED"||st==="BLOCKED") return "KEY BLOCKED"; if(ks==="EXPIRED"||st==="EXPIRED") return "KEY EXPIRED"; const s=computeTimerState(o); if(s.status==="expired") return "KEY EXPIRED"; if(s.status==="paused") return "TIMER PAUSED"; if(st==="INACTIVE") return "KEY INACTIVE"; return "KEY ACTIVE"; }
+function statusBadgeClass(display){ return "badge-"+display.replace(/\s+/g,"-"); }
+function statusIconFor(display){ const d=String(display||"").toUpperCase(); if(d.includes("BANNED")) return {icon:"🚫",color:"var(--red)",desc:"Banned"}; if(d.includes("DISABLED")) return {icon:"⛔",color:"var(--text-3)",desc:"Disabled"}; if(d.includes("BLOCKED")) return {icon:"🔒",color:"var(--orange)",desc:"Blocked"}; if(d.includes("EXPIRED")) return {icon:"⏰",color:"var(--red)",desc:"Expired"}; if(d.includes("INACTIVE")) return {icon:"💤",color:"var(--text-3)",desc:"Inactive"}; if(d.includes("PAUSED")) return {icon:"⏸️",color:"var(--blue)",desc:"Paused"}; if(d.includes("ACTIVE")) return {icon:"✅",color:"var(--green)",desc:"Active"}; return {icon:"❓",color:"var(--text-3)",desc:""}; }
+
+let toastTimer;
+function toast(msg, kind="") {
+  const el = $("#toast");
+  if (!el) { console.log("[Toast]", msg); return; }
+  el.textContent = msg;
+  el.className = "toast show " + kind;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.className = "toast " + kind, 2400);
+}
+function queueAutoStartToast(key) {
+  autoStartToastQueue.push(key);
+  clearTimeout(autoStartToastTimer);
+  autoStartToastTimer = setTimeout(() => {
+    const n = autoStartToastQueue.length;
+    if (n === 1) toast(`⚡ Timer started: ${autoStartToastQueue[0]}`, "ok");
+    else toast(`⚡ ${n} timers auto-started`, "ok");
+    autoStartToastQueue.length = 0;
+  }, 700);
+}
+
+const openModal = id => { const el=document.getElementById(id); if(el){ el.classList.add("open"); document.body.style.overflow="hidden"; } };
+const closeModal = id => { const el=document.getElementById(id); if(el){ el.classList.remove("open"); if(!document.querySelector(".modal-overlay.open")) document.body.style.overflow=""; } };
+
+let confirmResolver = null;
+function confirmDialog(title, message, okLabel="CONFIRM"){
+  if(!settings.confirmations) return Promise.resolve(true);
+  return new Promise(resolve => {
+    confirmResolver=resolve;
+    $("#confirmTitle").textContent=title;
+    $("#confirmMessage").textContent=message;
+    $("#confirmOk").textContent=okLabel;
+    openModal("confirmModal");
+  });
+}
+function settleConfirm(v){
+  closeModal("confirmModal");
+  if(confirmResolver){ const r = confirmResolver; confirmResolver=null; try { r(v); } catch(e){} }
+}
+let promptResolver = null;
+function promptDialog(title,message,label="VALUE",defaultValue=""){
+  return new Promise(resolve => {
+    promptResolver=resolve;
+    $("#promptTitle").textContent=title;
+    $("#promptMessage").textContent=message;
+    $("#promptLabel").textContent=label;
+    $("#promptInput").value=defaultValue;
+    openModal("promptModal");
+    setTimeout(()=>{ try { $("#promptInput").focus(); $("#promptInput").select(); } catch(e){} },180);
+  });
+}
+function settlePrompt(v){
+  closeModal("promptModal");
+  if(promptResolver){ const r = promptResolver; promptResolver=null; try { r(v); } catch(e){} }
+}
+
+$("#confirmOk").addEventListener("click", () => settleConfirm(true));
+$("#confirmCancel").addEventListener("click", () => settleConfirm(false));
+$("#promptOk").addEventListener("click", () => settlePrompt($("#promptInput").value));
+$("#promptCancel").addEventListener("click", () => settlePrompt(null));
+
+document.addEventListener("click", e => {
+  const cb=e.target.closest("[data-close]");
+  if(cb){
+    const ov=cb.closest(".modal-overlay");
+    if(ov){
+      if(ov.id==="confirmModal") settleConfirm(false);
+      else if(ov.id==="promptModal") settlePrompt(null);
+      else closeModal(ov.id);
+    }
+  }
+  if(e.target.classList && e.target.classList.contains("modal-overlay")){
+    if(e.target.id==="confirmModal") settleConfirm(false);
+    else if(e.target.id==="promptModal") settlePrompt(null);
+    else closeModal(e.target.id);
+  }
+});
+document.addEventListener("keydown", e => {
+  if(e.key==="Escape"){
+    if($("#confirmModal").classList.contains("open")) settleConfirm(false);
+    else if($("#promptModal").classList.contains("open")) settlePrompt(null);
+    else document.querySelectorAll(".modal-overlay.open").forEach(m => m.classList.remove("open"));
+    const ms = $("#moreSheet"); if (ms) ms.classList.remove("show");
+  }
+  if(e.key==="Enter" && $("#promptModal").classList.contains("open") && document.activeElement?.id==="promptInput"){
+    e.preventDefault(); settlePrompt($("#promptInput").value);
+  }
+});
+
+function showAuthError(m){ const el=$("#loginError"); if(el) el.textContent = m || ""; }
+$("#loginBtn").addEventListener("click", () => {
+  const email = $("#loginEmail").value.trim();
+  const pass = $("#loginPassword").value;
+  if (!email || !pass) { showAuthError("Enter email and password."); return; }
+  $("#loginBtn").disabled = true;
+  $("#loginBtn").innerHTML = '<span class="spinner"></span> Signing in…';
+  signInWithEmailAndPassword(auth, email, pass)
+    .then(() => showAuthError(""))
+    .catch(err => showAuthError(String(err.message||err).replace("Firebase: ", "")))
+    .finally(() => { $("#loginBtn").disabled = false; $("#loginBtn").textContent = "Sign In"; });
+});
+function doSignOut(){
+  if (!confirm("Sign out?")) return;
+  signOut(auth).then(() => toast("Signed out", "ok")).catch(e => toast("Sign out failed", "error"));
+}
+$("#avatarBtn").addEventListener("click", doSignOut);
+$("#logoutBtn").addEventListener("click", doSignOut);
+$("#settingsSignOut").addEventListener("click", doSignOut);
+
+onAuthStateChanged(auth, user => {
+  try {
+    if (user) {
+      $("#loginOverlay").classList.remove("show");
+      const email = user.email || "";
+      const init = (settings.adminName || email.split("@")[0] || "A").charAt(0).toUpperCase();
+      $("#avatarBtn").textContent = init;
+      $("#settingsEmail").value = email;
+      $("#adminMiniEmail").textContent = email;
+      $("#adminMiniName").textContent = settings.adminName;
+      $("#adminAvatar").textContent = init;
+      if (!sessionStartTs) sessionStartTs = Date.now();
+      if (!firebaseReady) startFirebaseListeners();
+    } else {
+      $("#loginOverlay").classList.add("show");
+    }
+  } catch(e) { console.error("[AuthState]", e); }
+});
+
+function startFirebaseListeners() {
+  if (firebaseReady) return;
+  firebaseReady = true;
+
+  try {
+    onValue(ref(db, USERS_NODE), snap => {
+      try {
+        allKeys = snap.val() || {};
+        renderStats(); renderKeys(); renderDevices(); renderRecentKeys();
+        populateNotifTarget();
+        if (devicesKey) renderDevicesModal();
+        runAutoStartCheck(allKeys);
+        syncExpiredStatuses(allKeys);
+        saveCache();
+      } catch(e) { console.error("[users]", e); }
+    }, err => { toast("Firebase error", "error"); });
+  } catch(e) {}
+
+  try {
+    onValue(query(ref(db, ACTIVITY_NODE), limitToLast(MAX_ACTIVITY)), snap => {
+      try {
+        const val = snap.val() || {};
+        activityLog = Object.entries(val).map(([id,v]) => ({id,...v})).sort((a,b) => String(b.time||"").localeCompare(String(a.time||"")));
+        renderActivity(); renderRecentActivity();
+        if (activityKey) renderKeyActivity();
+        saveCache();
+      } catch(e) {}
+    });
+  } catch(e) {}
+
+  try {
+    onValue(ref(db, CONFIG_NODE + "/global"), snap => {
+      try {
+        const v = snap.val() || {};
+        globalConfig = {
+          appName: v.appName ?? "AURA XITERS",
+          appSubtitle: v.appSubtitle ?? "PREMIUM EDITION",
+          destPath: v.destPath ?? "",
+          logoUrl: v.logoUrl ?? "",
+          logoBase64: v.logoBase64 ?? ""
+        };
+        if (!editingState.global) hydrateGlobalForm();
+        saveCache();
+      } catch(e) {}
+    });
+  } catch(e) {}
+
+  try {
+    onValue(ref(db, CONFIG_NODE + "/switches"), snap => {
+      try {
+        switchesConfig = snap.val() || {};
+        if (!editingState.switches) renderSwitchBlocks();
+        saveCache();
+      } catch(e) {}
+    });
+  } catch(e) {}
+
+  try {
+    onValue(ref(db, CONFIG_NODE + "/controls"), snap => {
+      try {
+        const v = snap.val() || {};
+        controlsConfig = {
+          launchPackage: v.launchPackage || "com.dts.freefireth",
+          launchLabel: v.launchLabel || "LAUNCH FREE FIRE",
+          floatingEnabled: v.floatingEnabled !== false
+        };
+        if (!editingState.global) hydrateControlsForm();
+        saveCache();
+      } catch(e) {}
+    });
+  } catch(e) {}
+
+  try {
+    onValue(ref(db, CONFIG_NODE + "/BRANDING"), snap => {
+      try {
+        const v = snap.val() || {};
+        const perms = v.permissions || {};
+        brandingConfig = {
+          appName: v.appName || "AURA XITERS",
+          edition: v.edition || "PREMIUM EDITION",
+          version: v.version || "V2.0",
+          tagline: v.tagline || "PREMIUM SECURE PORTAL",
+          logoUrl: v.logoUrl || "", logoBase64: v.logoBase64 || "",
+          accentColor: v.accentColor || "#8B5CF6",
+          loginTitle: v.loginTitle || "ACCESS KEY",
+          loginSubtitle: v.loginSubtitle || "Enter your key to continue",
+          hintText: v.hintText || "Enter Access Key",
+          loadingText: v.loadingText || "VERIFYING...",
+          successText: v.successText || "ACCESS GRANTED",
+          moreOptionsLabel: v.moreOptionsLabel || "MORE OPTIONS",
+          footerText: v.footerText || "POWERED BY AURA XITERS",
+          permNotifTitle: perms.notificationTitle || "Allow Notifications",
+          permNotifDesc:  perms.notificationDesc  || "Needed to keep the service active.",
+          permOverTitle:  perms.overlayTitle      || "Display Over Apps",
+          permOverDesc:   perms.overlayDesc       || "Needed for the in-game control panel.",
+          permBattTitle:  perms.batteryTitle      || "Battery Optimization",
+          permBattDesc:   perms.batteryDesc       || "Required for a stable connection.",
+          permShzTitle:   perms.shizukuTitle      || "Shizuku Permission",
+          permShzDesc:    perms.shizukuDesc       || "Required for advanced system operations.",
+          permVpnTitle:   perms.vpnTitle          || "VPN Permission",
+          permVpnDesc:    perms.vpnDesc           || "Required to route traffic through the secure tunnel.",
+          youtubeName: v.youtubeName || "AURA XITERS", youtubeUrl: v.youtubeUrl || "",
+          youtubeDesc: v.youtubeDesc || "", youtubeButtonText: v.youtubeButtonText || "SUBSCRIBE",
+          telegramName: v.telegramName || "AURA XITERS", telegramUrl: v.telegramUrl || "",
+          telegramDesc: v.telegramDesc || "", telegramButtonText: v.telegramButtonText || "JOIN TELEGRAM",
+          setupTitle: v.setupTitle || "SETUP VIDEO", setupUrl: v.setupUrl || "", setupDesc: v.setupDesc || "",
+          supportTitle: v.supportTitle || "SUPPORT", supportDesc: v.supportDesc || "", supportUrl: v.supportUrl || "",
+          maintenanceEnabled: v.maintenanceEnabled === true, maintenanceTitle: v.maintenanceTitle || "MAINTENANCE MODE",
+          maintenanceMessage: v.maintenanceMessage || "", maintenanceEndTime: v.maintenanceEndTime || "",
+          maintenanceButtonText: v.maintenanceButtonText || "OK",
+          updateEnabled: v.updateEnabled === true, updateForce: v.updateForce === true,
+          updateVersion: v.updateVersion || "V3.0", updateTitle: v.updateTitle || "NEW UPDATE AVAILABLE",
+          updateMessage: v.updateMessage || "", updateUrl: v.updateUrl || "", updateButtonText: v.updateButtonText || "UPDATE NOW"
+        };
+        if (!editingState.branding) hydrateBrandingForm();
+        applyBranding();
+        saveCache();
+      } catch(e) {}
+    });
+  } catch(e) {}
+
+  try {
+    onValue(ref(db, CONFIG_NODE + "/games"), snap => {
+      try {
+        gamesConfig = snap.val() || {};
+        if (Object.keys(gamesConfig).length === 0) {
+          gamesConfig = {
+            freefire: { name:"Free Fire",     package:"com.dts.freefireth",  version:"1.132.1", iconUrl:"", enabled:true },
+            ffmax:    { name:"Free Fire MAX", package:"com.dts.freefiremax", version:"1.0.0",   iconUrl:"", enabled:true }
+          };
+        }
+        if (!editingState.games) renderGames();
+        saveCache();
+      } catch(e) {}
+    });
+  } catch(e) {}
+
+  try {
+    onValue(ref(db, CONFIG_NODE + "/servers"), snap => {
+      try {
+        serversConfig = snap.val() || {};
+        if (Object.keys(serversConfig).length === 0) {
+          serversConfig = {
+            singapore: { name:"Singapore",     host:"google.com.sg", port:443, region:"Asia",    enabled:true },
+            mumbai:    { name:"Mumbai",        host:"google.co.in",  port:443, region:"India",   enabled:true },
+            us:        { name:"United States", host:"google.com",    port:443, region:"America", enabled:true },
+            other:     { name:"Other",         host:"1.1.1.1",       port:443, region:"Global",  enabled:true }
+          };
+        }
+        if (!editingState.servers) renderServers();
+        saveCache();
+      } catch(e) {}
+    });
+  } catch(e) {}
+
+  try {
+    onValue(ref(db, NOTIF_PATH + "/current"), snap => {
+      try { currentNotif = snap.val() || null; }
+      catch(e) {}
+    });
+  } catch(e) {}
+
+  try {
+    onValue(ref(db, NOTIF_PATH + "/history"), snap => {
+      try {
+        notifHistory = snap.val() || {};
+        renderNotifHistory();
+        saveCache();
+      } catch(e) {}
+    });
+  } catch(e) {}
+}
+
+/* ═══ NOTIFICATION SYSTEM ═══ */
+function renderNotifHistory() {
+  const list = $("#notifHistoryList"), empty = $("#notifHistoryEmpty");
+  if (!list || !empty) return;
+  const entries = Object.entries(notifHistory).map(([id, v]) => ({ pushId: id, ...v })).sort((a,b) => Number(b.id || 0) - Number(a.id || 0));
+  $("#notifHistoryCount").textContent = entries.length;
+  if (!entries.length) { list.innerHTML = ""; empty.classList.remove("hidden"); return; }
+  empty.classList.add("hidden");
+  const typeColors = { info:{c:"var(--blue)",i:"ℹ️"}, success:{c:"var(--green)",i:"✅"}, warning:{c:"var(--orange)",i:"⚠️"}, error:{c:"var(--red)",i:"❌"}, update:{c:"var(--primary-lt)",i:"🚀"} };
+  list.innerHTML = entries.map(n => {
+    const meta = typeColors[n.type] || typeColors.info;
+    const target = n.target === "all" ? "🌐 All" : "🔑 " + esc(n.target || "");
+    const flags = [];
+    if (n.showSystem) flags.push("📱");
+    if (n.showPopup) flags.push("💬");
+    return `<div class="row-item">
+      <div class="row-thumb" style="background:${meta.c}22;color:${meta.c};border:none;font-size:18px">${meta.i}</div>
+      <div class="row-body">
+        <div style="font-size:12.5px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(n.title || "Untitled")}</div>
+        <div style="font-size:10.5px;color:var(--text-3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(n.message || "")}</div>
+        <div style="font-size:9.5px;color:var(--text-3);margin-top:4px;font-family:'JetBrains Mono',monospace">${target} • ${flags.join(" ")} • ${esc(formatTime(n.createdAt))}</div>
+      </div>
+      <div class="row-actions">
+        <button class="btn btn-sm btn-icon" data-notif-del="${esc(n.pushId)}" title="Delete" style="background:var(--red-soft);border-color:rgba(239,68,68,.3);color:var(--red);width:34px;height:34px;padding:0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+        </button>
+        <button class="btn btn-sm btn-icon" data-notif-re="${esc(n.pushId)}" title="Re-send" style="background:var(--glass-2);border-color:var(--border);width:34px;height:34px;padding:0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8"/><path d="M3 3v5h5"/></svg>
+        </button>
+      </div>
+    </div>`;
+  }).join("");
+  $$("[data-notif-del]", list).forEach(b => b.addEventListener("click", () => deleteNotif(b.dataset.notifDel)));
+  $$("[data-notif-re]", list).forEach(b => b.addEventListener("click", () => resendNotif(b.dataset.notifRe)));
+}
+
+function populateNotifTarget() {
+  const sel = $("#notifTarget"); if (!sel) return;
+  const current = sel.value || "all";
+  sel.innerHTML = `<option value="all">🌐 All Users</option>`;
+  Object.keys(allKeys).sort().forEach(k => {
+    const opt = document.createElement("option");
+    opt.value = k;
+    opt.textContent = "🔑 " + k;
+    sel.appendChild(opt);
+  });
+  sel.value = current;
+}
+
+async function sendNotification() {
+  const err = $("#notifError"), ok = $("#notifSuccess");
+  err.classList.remove("show"); ok.classList.remove("show");
+  const showErr = m => { err.textContent = "❌ " + m; err.classList.add("show"); };
+  const title = $("#notifTitle").value.trim();
+  const message = $("#notifMessage").value.trim();
+  const type = $("#notifType").value;
+  const target = $("#notifTarget").value || "all";
+  const imageUrl = $("#notifImage").value.trim();
+  const actionUrl = $("#notifActionUrl").value.trim();
+  const actionLabel = $("#notifActionLabel").value.trim();
+  const showSystem = $("#notifSystemSw").classList.contains("on");
+  const showPopup = $("#notifPopupSw").classList.contains("on");
+  const expiryHours = parseInt($("#notifExpiry").value, 10) || 0;
+
+  if (!title) return showErr("Title required.");
+  if (!message) return showErr("Message required.");
+  if (!showSystem && !showPopup) return showErr("Kam se kam ek delivery method on karo.");
+
+  const okConfirm = await confirmDialog("Send Notification", `Send to: ${target === "all" ? "ALL USERS" : target}\n\nSystem: ${showSystem ? "YES" : "no"}\nPopup: ${showPopup ? "YES" : "no"}`, "SEND");
+  if (!okConfirm) return;
+
+  const btn = $("#notifSendBtn"), orig = btn.innerHTML;
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> SENDING…';
+
+  try {
+    const now = Date.now();
+    const payload = {
+      id: String(now), title, message, type, target,
+      showSystem, showPopup, imageUrl, actionUrl, actionLabel,
+      createdAt: new Date().toISOString(),
+      createdBy: settings.adminName || "Admin",
+      active: true
+    };
+    if (expiryHours > 0) payload.expiresAt = new Date(now + expiryHours * 60 * 60 * 1000).toISOString();
+
+    await set(ref(db, NOTIF_PATH + "/current"), payload);
+    await set(ref(db, NOTIF_PATH + "/history/" + now), payload);
+    logActivity("📤 Notification Sent", title.slice(0, 40));
+
+    ok.textContent = "✅ Sent successfully!";
+    ok.classList.add("show");
+    setTimeout(() => ok.classList.remove("show"), 2600);
+    $("#notifTitle").value = "";
+    $("#notifMessage").value = "";
+    $("#notifImage").value = "";
+    $("#notifActionUrl").value = "";
+    $("#notifActionLabel").value = "";
+    toast("Sent ✓", "ok");
+  } catch(e) {
+    console.error("[sendNotification]", e);
+    showErr(e.message || "Send failed");
+  } finally { btn.disabled = false; btn.innerHTML = orig; }
+}
+
+async function clearCurrentNotification() {
+  const ok = await confirmDialog("Clear Broadcast", "Users ke current notification hata dein?", "CLEAR");
+  if (!ok) return;
+  try {
+    await remove(ref(db, NOTIF_PATH + "/current"));
+    logActivity("Notification Cleared", "");
+    toast("Cleared ✓", "ok");
+  } catch(e) { toast("Failed", "error"); }
+}
+
+async function deleteNotif(pushId) {
+  const ok = await confirmDialog("Delete", "History se delete karein?", "DELETE");
+  if (!ok) return;
+  try { await remove(ref(db, NOTIF_PATH + "/history/" + pushId)); toast("Deleted ✓", "ok"); }
+  catch(e) { toast("Failed", "error"); }
+}
+
+async function resendNotif(pushId) {
+  const n = notifHistory[pushId]; if (!n) return;
+  const ok = await confirmDialog("Re-send", `Re-send "${n.title}"?`, "SEND");
+  if (!ok) return;
+  try {
+    const now = Date.now();
+    const payload = { ...n, id: String(now), createdAt: new Date().toISOString(), createdBy: settings.adminName || "Admin", active: true };
+    delete payload.pushId;
+    await set(ref(db, NOTIF_PATH + "/current"), payload);
+    await set(ref(db, NOTIF_PATH + "/history/" + now), payload);
+    logActivity("Notification Re-sent", n.title?.slice(0, 40) || "");
+    toast("Re-sent ✓", "ok");
+  } catch(e) { toast("Failed", "error"); }
+}
+
+$("#notifSendBtn").addEventListener("click", sendNotification);
+$("#notifClearBtn").addEventListener("click", clearCurrentNotification);
+$("#notifSystemSw").addEventListener("click", () => $("#notifSystemSw").classList.toggle("on"));
+$("#notifPopupSw").addEventListener("click", () => $("#notifPopupSw").classList.toggle("on"));
+
+function logActivity(action, keyVal) {
+  if (!db) return;
+  push(ref(db, ACTIVITY_NODE), {
+    action: String(action), key: String(keyVal || ""),
+    time: new Date().toISOString(), admin: settings.adminName || "Admin"
+  }).catch(() => {});
+}
+
+function runAutoStartCheck(keys) {
+  if (!firebaseReady || !db || !keys) return;
+  Object.entries(keys).forEach(([key, data]) => {
+    if (!data || typeof data !== "object") return;
+    const currentLastLogin = String(data.lastLogin || "").trim();
+    lastLoginSnapshot.set(key, currentLastLogin);
+    if (data.validity && String(data.validity).trim()) return;
+    if (!currentLastLogin) return;
+    if (autoStartProcessing.has(key)) return;
+    const cfg = getDurationConfig(data);
+    const durationMs = durationToMs(cfg.value, cfg.unit);
+    if (durationMs <= 0) return;
+    const loginDate = parseValidity(data.firstLogin) || parseValidity(currentLastLogin) || new Date();
+    const expiry = new Date(loginDate.getTime() + durationMs);
+    autoStartProcessing.add(key);
+    const upd = { validity: formatValidity(expiry), validityMode: "duration", autoStarted: true, autoStartedAt: new Date().toISOString() };
+    if (!data.firstLogin || !String(data.firstLogin).trim()) upd.firstLogin = formatValidity(loginDate);
+    update(ref(db, `${USERS_NODE}/${key}`), upd)
+      .then(() => { logActivity("⚡ Timer Auto-Started", key); queueAutoStartToast(key); })
+      .catch(err => console.warn("[AutoStart] ✗", key, err))
+      .finally(() => setTimeout(() => autoStartProcessing.delete(key), 5000));
+  });
+}
+
+function syncExpiredStatuses(keys) {
+  if (syncInProgress || !db || !keys) return;
+  const toUpdate = [];
+  for (const [key, data] of Object.entries(keys)) {
+    if (!data || !data.validity) continue;
+    const ks = String(data.keyStatus || "ACTIVE").toUpperCase();
+    if (ks === "EXPIRED" || ks === "BLOCKED" || ks === "BANNED" || ks === "DISABLED") continue;
+    if (syncCooldown.has(key)) continue;
+    const end = parseValidity(data.validity);
+    if (!end) continue;
+    if (Date.now() >= end.getTime()) toUpdate.push(key);
+  }
+  if (!toUpdate.length) return;
+  syncInProgress = true;
+  let count = 0;
+  const badge = $("#syncBadge");
+  if (badge) { badge.classList.add("off"); $("#syncBadgeText").textContent = "SYNC"; }
+  Promise.all(toUpdate.map(key => {
+    syncCooldown.add(key);
+    setTimeout(() => syncCooldown.delete(key), 15000);
+    return update(ref(db, `${USERS_NODE}/${key}`), { keyStatus: "EXPIRED", status: "INACTIVE", expiredAt: new Date().toISOString(), expireReason: "Auto-expired" }).then(() => { count++; logActivity("Auto EXPIRED", key); }).catch(() => {});
+  })).finally(() => {
+    syncInProgress = false;
+    if (badge) { badge.classList.remove("off"); $("#syncBadgeText").textContent = "LIVE"; }
+    if (count > 0) toast(`Auto-synced ${count}`, "ok");
+  });
+}
+setInterval(() => { if (firebaseReady && Object.keys(allKeys).length) syncExpiredStatuses(allKeys); }, 30000);
+
+function renderStats() {
+  const entries = Object.entries(allKeys);
+  let total = 0, active = 0, expired = 0, paused = 0, totalDevices = 0;
+  const counts = { ALL:0, PAUSED:0, ACTIVE:0, EXPIRED:0, BLOCKED:0, BANNED:0, DISABLED:0 };
+  for (const [, v] of entries) {
+    total++; counts.ALL++;
+    const disp = getKeyDisplayStatus(v);
+    if (disp.includes("EXPIRED")) { expired++; counts.EXPIRED++; }
+    else if (disp.includes("PAUSED")) { paused++; counts.PAUSED++; }
+    else if (disp.includes("BANNED")) counts.BANNED++;
+    else if (disp.includes("BLOCKED")) counts.BLOCKED++;
+    else if (disp.includes("DISABLED")) counts.DISABLED++;
+    else if (disp.includes("ACTIVE")) { active++; counts.ACTIVE++; }
+    totalDevices += getDeviceCount(v);
+  }
+  Object.keys(counts).forEach(k => { const el = document.querySelector(`[data-count="${k}"]`); if (el) el.textContent = counts[k]; });
+  const cards = [
+    { key:"total", label:"TOTAL", value:total, color:"var(--primary)", bg:"var(--glass-2)", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3L21 2m-3 0h3v3"/></svg>' },
+    { key:"active", label:"ACTIVE", value:active, color:"var(--green)", bg:"var(--green-soft)", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>' },
+    { key:"paused", label:"PAUSED", value:paused, color:"var(--blue)", bg:"var(--blue-soft)", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/></svg>' },
+    { key:"expired", label:"EXPIRED", value:expired, color:"var(--red)", bg:"var(--red-soft)", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>' },
+    { key:"blocked", label:"BANNED", value:counts.BLOCKED + counts.BANNED + counts.DISABLED, color:"var(--orange)", bg:"var(--orange-soft)", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg>' },
+    { key:"devices", label:"DEVICES", value:totalDevices, color:"var(--primary-ac)", bg:"var(--glass-2)", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg>' }
+  ];
+  const grid = $("#statsGrid");
+  if (grid.children.length !== cards.length) {
+    grid.innerHTML = cards.map(c => `<div class="stat-card" data-stat="${c.key}" style="--glow:${c.color}"><div class="stat-icon" style="--icon-bg:${c.bg};--icon-c:${c.color}">${c.icon}</div><div class="stat-value" data-val="0">0</div><div class="stat-label">${c.label}</div></div>`).join("");
+  }
+  cards.forEach(c => { const el = grid.querySelector(`[data-stat="${c.key}"] .stat-value`); if (el) el.textContent = c.value.toLocaleString(); });
+}
+
+function renderRecentKeys() {
+  const el = $("#recentKeys"); if (!el) return;
+  const entries = Object.entries(allKeys).map(([k,v]) => ({key:k,...v})).sort((a,b) => String(b.lastLogin||"").localeCompare(String(a.lastLogin||""))).slice(0,5);
+  if (!entries.length) { el.innerHTML = `<div class="empty" style="padding:24px 10px"><p style="font-size:11px">No keys yet</p></div>`; return; }
+  el.innerHTML = entries.map(o => {
+    const disp = getKeyDisplayStatus(o);
+    const meta = statusIconFor(disp);
+    return `<div class="row-item" data-open-key="${esc(o.key)}" style="cursor:pointer"><div class="row-thumb" style="background:${meta.color}22;color:${meta.color};border:none;font-size:18px">${meta.icon}</div><div class="row-body"><div style="font-size:12.5px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--primary-lt)">${esc(o.key)}</div><div style="font-size:10.5px;color:var(--text-3);margin-top:3px">${esc(o.username||"—")} • ${getDeviceCount(o)}/${getMaxDevices(o)} devices</div></div><span class="badge ${statusBadgeClass(disp)}" style="align-self:center">${esc(disp)}</span></div>`;
+  }).join("");
+  $$("[data-open-key]", el).forEach(i => i.addEventListener("click", () => openViewModal(i.dataset.openKey)));
+}
+
+function renderRecentActivity() {
+  const el = $("#recentActivity"); if (!el) return;
+  if (!activityLog.length) { el.innerHTML = `<div class="empty" style="padding:24px 10px"><p style="font-size:11px">No activity</p></div>`; return; }
+  el.innerHTML = activityLog.slice(0,5).map(item => `<div class="row-item"><div class="row-thumb" style="color:var(--primary-lt)">📋</div><div class="row-body"><div style="font-size:12px;font-weight:700">${esc(item.action||"Action")}</div><div style="font-size:10.5px;color:var(--text-3);margin-top:2px">${esc(item.key||"—")} • ${esc(formatTime(item.time))}</div></div></div>`).join("");
+}
+
+function getFilteredKeys() {
+  let arr = Object.entries(allKeys).map(([k,v]) => ({key:k,...v}));
+  if (currentSearch.trim()) {
+    const q = currentSearch.trim().toLowerCase();
+    arr = arr.filter(o => String(o.key).toLowerCase().includes(q) || String(o.username||"").toLowerCase().includes(q));
+  }
+  if (currentFilter !== "ALL") {
+    arr = arr.filter(o => {
+      const d = getKeyDisplayStatus(o);
+      if (currentFilter === "EXPIRED") return d.includes("EXPIRED");
+      if (currentFilter === "PAUSED") return d.includes("PAUSED");
+      if (currentFilter === "ACTIVE") return d.includes("ACTIVE");
+      if (currentFilter === "BANNED") return d.includes("BANNED");
+      if (currentFilter === "BLOCKED") return d.includes("BLOCKED");
+      if (currentFilter === "DISABLED") return d.includes("DISABLED");
+      return true;
+    });
+  }
+  const cmp = (a,b) => String(a||"").localeCompare(String(b||""));
+  arr.sort((a,b) => cmp(b.lastLogin,a.lastLogin) || cmp(b.key,a.key));
+  return arr;
+}
+
+function renderKeys() {
+  const grid = $("#keysGrid"), empty = $("#keysEmpty");
+  if (!grid || !empty) return;
+  const filtered = getFilteredKeys();
+  if (!filtered.length) { grid.innerHTML = ""; empty.classList.remove("hidden"); return; }
+  empty.classList.add("hidden");
+  grid.innerHTML = filtered.map(o => {
+    const state = computeTimerState(o);
+    const dc = getDeviceCount(o), maxD = getMaxDevices(o);
+    const disp = getKeyDisplayStatus(o);
+    const cls = disp.replace(/\s+/g,"-");
+    const isPaused = disp.includes("PAUSED");
+    const showReact = !disp.includes("ACTIVE");
+    const pct = maxD > 0 ? Math.min(100, (dc/maxD)*100) : 0;
+    let primaryAction = "";
+    if (isPaused) primaryAction = `<button class="ka-btn ka-start" data-start-key="${esc(o.key)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="6 4 20 12 6 20 6 4" fill="currentColor"/></svg>START</button>`;
+    else if (showReact) primaryAction = `<button class="ka-btn ka-start" data-reactivate-key="${esc(o.key)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8"/><path d="M3 3v5h5"/></svg>REACT</button>`;
+    else primaryAction = `<button class="ka-btn" data-setexp-key="${esc(o.key)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>SET</button>`;
+    const timerColor = state.cls === "expired" || state.cls === "crit" ? "var(--red)" : state.cls === "warn" ? "var(--orange)" : state.cls === "paused" ? "var(--blue)" : "var(--green)";
+    return `<div class="key-card status-${cls}">
+      <div class="key-card-head">
+        <div class="key-card-key" data-open-key="${esc(o.key)}">${esc(o.key)}</div>
+        <span class="badge ${statusBadgeClass(disp)}">${esc(disp)}</span>
+      </div>
+      <div class="key-timer-big">
+        <div><div class="t-lbl">TIMER</div><div class="t-val" style="color:${timerColor}">${esc(state.label)}</div></div>
+        <div style="text-align:right"><div class="t-lbl">USER</div><div style="font-size:12.5px;font-weight:700;margin-top:2px">${esc(o.username||"—")}</div></div>
+      </div>
+      <div class="key-meta-row"><span class="lbl">Expiry</span><span class="val">${esc(o.validity || "— Not set")}</span></div>
+      <div class="key-meta-row" style="border-top:none;padding-top:0"><span class="lbl">Devices</span><span class="val" style="color:${dc >= maxD ? "var(--red)" : "var(--text)"}">${dc} / ${maxD}</span></div>
+      <div class="key-devices-bar"><div class="key-devices-bar-fill" style="width:${pct}%"></div></div>
+      <div class="key-actions-grid">
+        <button class="ka-btn ka-view" data-view-key="${esc(o.key)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>VIEW</button>
+        <button class="ka-btn ka-log" data-log-key="${esc(o.key)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l2.5-7 4 14L16 12h5"/></svg>LOG</button>
+        ${primaryAction}
+        <button class="ka-btn ka-more" data-more-key="${esc(o.key)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/><circle cx="18" cy="12" r="1.5"/></svg>MORE</button>
+      </div>
+    </div>`;
+  }).join("");
+  $$("[data-view-key]", grid).forEach(b => b.addEventListener("click", e => { e.stopPropagation(); openViewModal(b.dataset.viewKey); }));
+  $$("[data-log-key]", grid).forEach(b => b.addEventListener("click", e => { e.stopPropagation(); openKeyActivityModal(b.dataset.logKey); }));
+  $$("[data-reactivate-key]", grid).forEach(b => b.addEventListener("click", e => { e.stopPropagation(); openReactivateModal(b.dataset.reactivateKey); }));
+  $$("[data-start-key]", grid).forEach(b => b.addEventListener("click", e => { e.stopPropagation(); startTimerNow(b.dataset.startKey); }));
+  $$("[data-setexp-key]", grid).forEach(b => b.addEventListener("click", e => { e.stopPropagation(); setExpiryQuick(b.dataset.setexpKey); }));
+  $$("[data-more-key]", grid).forEach(b => b.addEventListener("click", e => { e.stopPropagation(); openActionMenu(b, b.dataset.moreKey); }));
+  $$("[data-open-key]", grid).forEach(el => el.addEventListener("click", () => openViewModal(el.dataset.openKey)));
+}
+
+function generateKey(prefix) {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const seg = (n) => { let s=""; for (let i=0;i<n;i++) s += chars.charAt(Math.floor(Math.random()*chars.length)); return s; };
+  const p = (prefix || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+  return p ? `${p}-${seg(4)}-${seg(4)}` : `${seg(4)}-${seg(4)}-${seg(4)}`;
+}
+$("#genKeyBtn").addEventListener("click", () => { $("#cKey").value = generateKey("FIXA"); toast("Key generated", "ok"); });
+$$("[data-gen-prefix]").forEach(b => b.addEventListener("click", () => { $("#cKey").value = generateKey(b.dataset.genPrefix); toast("Generated", "ok"); }));
+$("#copyKeyBtn").addEventListener("click", async () => {
+  const k = $("#cKey").value.trim();
+  if (!k) { toast("Generate a key first", "error"); return; }
+  try {
+    await navigator.clipboard.writeText(k);
+    const btn = $("#copyKeyBtn");
+    btn.classList.add("copied"); btn.textContent = "✓ COPIED";
+    setTimeout(() => { btn.classList.remove("copied"); btn.textContent = "📋 COPY"; }, 1500);
+  } catch(e) { toast("Copy failed", "error"); }
+});
+$$(".dur-tab").forEach(t => t.addEventListener("click", () => {
+  $$(".dur-tab").forEach(x => x.classList.remove("active"));
+  t.classList.add("active");
+  $("#cDurationUnit").value = t.dataset.unit;
+}));
+
+function resetCreateForm() {
+  $("#cKey").value = ""; $("#cUsername").value = "";
+  $("#cStatus").value = "ACTIVE"; $("#cKeyStatus").value = "ACTIVE";
+  $("#cMaxDevices").value = "1"; $("#cFirstDevice").value = "";
+  $("#cDurationValue").value = "1"; $("#cDurationUnit").value = "months";
+  $$(".dur-tab").forEach(x => x.classList.toggle("active", x.dataset.unit === "months"));
+  $("#createError").classList.remove("show");
+}
+$("#createReset").addEventListener("click", resetCreateForm);
+$("#createSubmit").addEventListener("click", async () => {
+  const key = $("#cKey").value.trim().toUpperCase(), username = $("#cUsername").value.trim();
+  const status = $("#cStatus").value, keyStatus = $("#cKeyStatus").value;
+  const maxD = parseInt($("#cMaxDevices").value, 10);
+  const firstDev = $("#cFirstDevice").value.trim();
+  const dv = parseInt($("#cDurationValue").value, 10);
+  const du = $("#cDurationUnit").value;
+  const errEl = $("#createError");
+  errEl.classList.remove("show");
+  const showErr = msg => { errEl.textContent = msg; errEl.classList.add("show"); };
+  if (!key) return showErr("Key required.");
+  if (!/^[A-Za-z0-9_-]+$/.test(key)) return showErr("Only A-Z, 0-9, -, _");
+  if (hasOwn(allKeys, key)) return showErr("Key already exists.");
+  if (!username) return showErr("Username required.");
+  if (!Number.isInteger(maxD) || maxD < 1 || maxD > 999) return showErr("Max 1-999.");
+  if (!Number.isInteger(dv) || dv < 1 || dv > 9999) return showErr("Duration 1-9999.");
+  const now = new Date();
+  const payload = { username, status, keyStatus, validityMode: "duration", maxDevices: maxD, devices: {}, durationValue: dv, durationUnit: du, validity: "", firstLogin: "", lastLogin: "", createdAt: now.toISOString() };
+  if (firstDev && !/[.#$/\[\]]/.test(firstDev)) payload.devices[firstDev] = true;
+  const btn = $("#createSubmit"), orig = btn.innerHTML;
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> CREATING…';
+  try {
+    await set(ref(db, `${USERS_NODE}/${key}`), payload);
+    logActivity("Key Created", key);
+    toast("Key created ✓", "ok");
+    resetCreateForm();
+    setTimeout(() => switchTab("keys"), 350);
+  } catch(e) { showErr("❌ " + (e.message || "Firebase permission denied.")); }
+  finally { btn.disabled = false; btn.innerHTML = orig; }
+});
+
+const DURATIONS = [["5m",5,"minutes"],["30m",30,"minutes"],["1h",1,"hours"],["6h",6,"hours"],["12h",12,"hours"],["24h",24,"hours"],["1mo",1,"months"],["3mo",3,"months"],["6mo",6,"months"],["12mo",12,"months"]];
+function buildDurationChips(container, valueId, unitId) {
+  if (!container) return;
+  container.innerHTML = DURATIONS.map(([l,v,u]) => `<button type="button" class="dur" data-dur-val="${v}" data-dur-unit="${u}">${l}</button>`).join("");
+  $$(".dur", container).forEach(btn => btn.addEventListener("click", () => {
+    document.getElementById(valueId).value = btn.dataset.durVal;
+    document.getElementById(unitId).value = btn.dataset.durUnit;
+    $$(".dur", container).forEach(x => x.classList.remove("active"));
+    btn.classList.add("active");
+    $$(".dur-tab").forEach(t => t.classList.toggle("active", t.dataset.unit === btn.dataset.durUnit));
+  }));
+}
+
+async function startTimerNow(key) {
+  const d = allKeys[key]; if (!d) return;
+  const cfg = getDurationConfig(d);
+  const durationMs = durationToMs(cfg.value, cfg.unit);
+  if (durationMs <= 0) { toast("Set valid duration first", "error"); return; }
+  const ok = await confirmDialog("Start Timer", `Start countdown for:\n\n${key}`, "START");
+  if (!ok) return;
+  const now = new Date();
+  const expiry = new Date(now.getTime() + durationMs);
+  const upd = { validity: formatValidity(expiry), validityMode: "duration", keyStatus: "ACTIVE", status: "ACTIVE", autoStarted: false };
+  if (!d.firstLogin || !String(d.firstLogin).trim()) upd.firstLogin = formatValidity(now);
+  upd.lastLogin = formatValidity(now);
+  try { await update(ref(db, `${USERS_NODE}/${key}`), upd); logActivity("Timer Started (Manual)", key); toast("Timer started ✓", "ok"); }
+  catch(e) { toast("Error: " + (e.message||""), "error"); }
+}
+
+let currentMenu = null;
+function closeActionMenu() { if (currentMenu) { currentMenu.remove(); currentMenu = null; } }
+function openActionMenu(anchor, key) {
+  closeActionMenu();
+  const menu = document.createElement("div");
+  menu.style.cssText = "position:fixed;z-index:300;min-width:230px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:16px;padding:6px;box-shadow:0 20px 60px rgba(0,0,0,.7)";
+  const d = allKeys[key]; if (!d) return;
+  const disp = getKeyDisplayStatus(d);
+  const isPaused = disp.includes("PAUSED");
+  const actions = [
+    { id:"view", label:"View Details", icon:"👁" },
+    { id:"activity", label:"Activity Log", icon:"📜" },
+    { id:"reactivate", label:"Reactivate (Reset Timer)", icon:"↻", cls:"success" },
+    ...(isPaused ? [{ id:"start", label:"Start Timer Now", icon:"▶", cls:"success" }] : []),
+    { id:"edit", label:"Edit Key", icon:"✏️" },
+    { id:"setexp", label:"Set Expiry", icon:"⚡" },
+    { id:"devices", label:"Manage Devices", icon:"📱" },
+    { id:"copykey", label:"Copy Key", icon:"📋" },
+    { id:"sep" },
+    { id:"block", label:"Block", icon:"🔒", cls:"warn" },
+    { id:"disable", label:"Disable", icon:"⛔" },
+    { id:"ban", label:"Ban", icon:"🚫", cls:"danger" },
+    { id:"sep" },
+    { id:"expire", label:"Expire Now", icon:"⏰", cls:"warn" },
+    { id:"reset", label:"Reset Timer", icon:"⏸" },
+    { id:"sep" },
+    { id:"delete", label:"Delete Key", icon:"🗑", cls:"danger" }
+  ];
+  menu.innerHTML = actions.map(a => a.id === "sep"
+    ? `<div style="height:1px;background:var(--border);margin:5px 4px"></div>`
+    : `<button data-action="${a.id}" style="display:flex;align-items:center;gap:11px;width:100%;padding:10px 12px;border:none;background:transparent;color:${a.cls === "danger" ? "var(--red)" : a.cls === "success" ? "var(--green)" : a.cls === "warn" ? "var(--orange)" : "var(--text-2)"};font-family:inherit;font-size:12.5px;font-weight:600;border-radius:9px;cursor:pointer;text-align:left">
+      <span style="width:18px;font-size:14px">${a.icon}</span>${a.label}
+    </button>`
+  ).join("");
+  document.body.appendChild(menu);
+  currentMenu = menu;
+  const rect = anchor.getBoundingClientRect();
+  const mw = menu.offsetWidth, mh = menu.offsetHeight;
+  let left = rect.right - mw, top = rect.bottom + 6;
+  if (left < 8) left = 8;
+  if (left + mw > window.innerWidth - 8) left = window.innerWidth - mw - 8;
+  if (top + mh > window.innerHeight - 8) top = rect.top - mh - 6;
+  if (top < 8) top = 8;
+  menu.style.left = left + "px"; menu.style.top = top + "px";
+  $$("button[data-action]", menu).forEach(btn => btn.addEventListener("click", () => { const a = btn.dataset.action; closeActionMenu(); handleAction(a, key); }));
+  setTimeout(() => {
+    const dismiss = ev => { if (!menu.contains(ev.target)) { closeActionMenu(); document.removeEventListener("click", dismiss); } };
+    document.addEventListener("click", dismiss);
+  }, 0);
+}
+
+async function quickStatus(key, newKeyStatus, newStatus, label) {
+  const d = allKeys[key]; if (!d) return;
+  const ok = await confirmDialog(`${label} Key`, `Confirm to ${label.toUpperCase()} "${key}"?`, label.toUpperCase());
+  if (!ok) return;
+  const upd = { updatedAt: new Date().toISOString() };
+  if (label === "Block") { upd.keyStatus = "BLOCKED"; upd.blockedAt = new Date().toISOString(); }
+  else if (label === "Ban") { upd.keyStatus = "BANNED"; upd.status = "INACTIVE"; upd.bannedAt = new Date().toISOString(); }
+  else if (label === "Disable") { upd.keyStatus = "DISABLED"; upd.disabledAt = new Date().toISOString(); }
+  else if (label === "Expire") { upd.keyStatus = "EXPIRED"; upd.status = "INACTIVE"; upd.expiredAt = new Date().toISOString(); upd.validity = formatValidity(new Date(Date.now() - 1000)); }
+  try { await update(ref(db, `${USERS_NODE}/${key}`), upd); logActivity(`Key ${label}`, key); toast(`${label} applied ✓`, "ok"); }
+  catch(e) { toast("Error: " + (e.message||""), "error"); }
+}
+
+async function handleAction(action, key) {
+  const d = allKeys[key]; if (!d) return;
+  switch (action) {
+    case "view": openViewModal(key); break;
+    case "activity": openKeyActivityModal(key); break;
+    case "reactivate": openReactivateModal(key); break;
+    case "start": await startTimerNow(key); break;
+    case "edit": await editKeyQuick(key); break;
+    case "setexp": await setExpiryQuick(key); break;
+    case "devices": openDevicesModal(key); break;
+    case "copykey": try { await navigator.clipboard.writeText(key); toast("Copied ✓", "ok"); } catch(e) { toast("Copy failed", "error"); } break;
+    case "block": await quickStatus(key, "BLOCKED", null, "Block"); break;
+    case "disable": await quickStatus(key, "DISABLED", null, "Disable"); break;
+    case "ban": await quickStatus(key, "BANNED", "INACTIVE", "Ban"); break;
+    case "expire": await quickStatus(key, "EXPIRED", "INACTIVE", "Expire"); break;
+    case "reset": await resetTimer(key); break;
+    case "delete": await deleteKey(key); break;
+  }
+}
+
+async function resetTimer(key) {
+  const ok = await confirmDialog("Reset Timer", `Reset timer for "${key}"?`, "RESET");
+  if (!ok) return;
+  try { await update(ref(db, `${USERS_NODE}/${key}`), { validity: "", firstLogin: "", keyStatus: "ACTIVE", status: "ACTIVE", expiredAt: null, bannedAt: null, blockedAt: null, disabledAt: null }); logActivity("Timer Reset", key); toast("Timer paused ✓", "ok"); }
+  catch(e) { toast("Error", "error"); }
+}
+async function deleteKey(key) {
+  const ok = await confirmDialog("Delete Key", `Delete "${key}" permanently?`, "DELETE");
+  if (!ok) return;
+  try { await remove(ref(db, `${USERS_NODE}/${key}`)); logActivity("Key Deleted", key); toast("Deleted ✓", "ok"); }
+  catch(e) { toast("Error", "error"); }
+}
+async function editKeyQuick(key) {
+  const d = allKeys[key]; if (!d) return;
+  const username = await promptDialog("Edit Username", `Key: ${key}`, "USERNAME", d.username || "");
+  if (username === null || !username.trim()) return;
+  const maxStr = await promptDialog("Max Devices", "1-999:", "MAX DEVICES", String(getMaxDevices(d)));
+  if (maxStr === null) return;
+  const max = parseInt(maxStr, 10);
+  if (!Number.isInteger(max) || max < 1 || max > 999) { toast("Invalid", "error"); return; }
+  try { await update(ref(db, `${USERS_NODE}/${key}`), { username: username.trim(), maxDevices: max }); logActivity("Key Updated", key); toast("Updated ✓", "ok"); }
+  catch(e) { toast("Error", "error"); }
+}
+async function setExpiryQuick(key) {
+  const d = allKeys[key]; if (!d) return;
+  const input = await promptDialog("Set Expiry", `Format: dd-MM-yyyy HH:mm:ss`, "EXPIRY DATE", d.validity || formatValidity(new Date(Date.now() + 86400000)));
+  if (input === null) return;
+  if (!isValidValidity(input)) { toast("Invalid format", "error"); return; }
+  try {
+    const newExpiry = parseValidity(input);
+    const upd = { validity: input.trim(), expiredAt: null };
+    if (newExpiry && newExpiry.getTime() > Date.now()) {
+      const ks = String(d.keyStatus || "").toUpperCase();
+      if (ks === "EXPIRED" || ks === "BANNED" || ks === "BLOCKED" || ks === "DISABLED") {
+        upd.keyStatus = "ACTIVE"; upd.status = "ACTIVE";
+        upd.bannedAt = null; upd.blockedAt = null; upd.disabledAt = null;
+      }
+    }
+    await update(ref(db, `${USERS_NODE}/${key}`), upd);
+    logActivity("Set Expiry", key); toast("Expiry set ✓", "ok");
+  } catch(e) { toast("Error", "error"); }
+}
+
+function openReactivateModal(key) {
+  const d = allKeys[key]; if (!d) return;
+  reactivateKey = key;
+  $("#reactivateKeyBanner").textContent = key;
+  $("#reactivateError").classList.remove("show");
+  openModal("reactivateModal");
+}
+$("#reactivateSave").addEventListener("click", async () => {
+  if (!reactivateKey) return;
+  const d = allKeys[reactivateKey];
+  const ok = await confirmDialog("Set Active", `Set "${reactivateKey}" to ACTIVE and reset timer?`, "SET ACTIVE");
+  if (!ok) return;
+  const btn = $("#reactivateSave"), orig = btn.textContent;
+  btn.disabled = true; btn.textContent = "ACTIVATING…";
+  try {
+    const cfg = getDurationConfig(d);
+    const durationMs = durationToMs(cfg.value, cfg.unit);
+    const upd = { keyStatus: "ACTIVE", status: "ACTIVE", bannedAt: null, blockedAt: null, disabledAt: null, expiredAt: null };
+    if (durationMs > 0) {
+      const now = new Date();
+      upd.validity = formatValidity(new Date(now.getTime() + durationMs));
+      upd.firstLogin = formatValidity(now);
+      upd.lastLogin = formatValidity(now);
+      upd.validityMode = "duration";
+    }
+    await update(ref(db, `${USERS_NODE}/${reactivateKey}`), upd);
+    syncCooldown.delete(reactivateKey);
+    logActivity("Key Reactivated", reactivateKey);
+    toast("Activated ✓", "ok");
+    closeModal("reactivateModal"); reactivateKey = null;
+  } catch(e) {
+    $("#reactivateError").textContent = e.message;
+    $("#reactivateError").classList.add("show");
+  } finally { btn.disabled = false; btn.textContent = orig; }
+});
+
+function openViewModal(key) {
+  const d = allKeys[key]; if (!d) return;
+  viewingKey = key;
+  const state = computeTimerState(d);
+  const maxD = getMaxDevices(d), dc = getDeviceCount(d);
+  const disp = getKeyDisplayStatus(d);
+  const meta = statusIconFor(disp);
+  const realSt = String(d.status || "ACTIVE").toUpperCase();
+  const realKs = String(d.keyStatus || "ACTIVE").toUpperCase();
+  const keyActivity = getActivityForKey(key, 8);
+  $("#viewModalBody").innerHTML = `
+    <div class="key-banner">${esc(key)}</div>
+    <div style="padding:14px;border-radius:14px;background:${meta.color}18;border:1px solid ${meta.color}55;margin-bottom:16px;text-align:center">
+      <div style="font-size:32px;margin-bottom:6px">${meta.icon}</div>
+      <div style="font-size:14px;font-weight:900;color:${meta.color};letter-spacing:.08em">${esc(disp)}</div>
+    </div>
+    <div class="quick-actions">
+      <button class="quick-action-btn qa-activate" data-qact="reactivate">↻ REACT</button>
+      <button class="quick-action-btn qa-block" data-qact="block">🔒 BLK</button>
+      <button class="quick-action-btn qa-ban" data-qact="ban">🚫 BAN</button>
+      <button class="quick-action-btn qa-reset" data-qact="reset">⏸ PAUSE</button>
+      <button class="quick-action-btn qa-delete" data-qact="delete">🗑 DEL</button>
+    </div>
+    <div class="details-section-title">Status</div>
+    <div class="details-grid">
+      <div class="detail-item"><div class="detail-label">Key Status</div><div class="detail-value"><span class="badge badge-${realKs === "ACTIVE" ? "KEY-ACTIVE" : "KEY-INACTIVE"}">${esc(realKs)}</span></div></div>
+      <div class="detail-item"><div class="detail-label">Status</div><div class="detail-value"><span class="badge badge-${realSt === "ACTIVE" ? "KEY-ACTIVE" : "KEY-INACTIVE"}">${esc(realSt)}</span></div></div>
+      <div class="detail-item span-2"><div class="detail-label">Timer</div><div class="detail-value">${esc(state.label)}</div></div>
+      <div class="detail-item span-2"><div class="detail-label">Expiry</div><div class="detail-value">${esc(d.validity || "— Not set")}</div></div>
+      ${d.firstLogin ? `<div class="detail-item"><div class="detail-label">First Login</div><div class="detail-value">${esc(d.firstLogin)}</div></div>` : ""}
+      ${d.lastLogin ? `<div class="detail-item"><div class="detail-label">Last Login</div><div class="detail-value">${esc(d.lastLogin)}</div></div>` : ""}
+      ${d.autoStarted ? `<div class="detail-item span-2"><div class="detail-label">Auto-Started</div><div class="detail-value">✓ Yes — ${esc(d.autoStartedAt || "")}</div></div>` : ""}
+    </div>
+    <div class="details-section-title">Recent Activity <span class="count">${keyActivity.length}</span></div>
+    ${keyActivity.length === 0 ? `<div style="padding:14px;text-align:center;color:var(--text-3);font-size:11px;background:var(--glass-2);border-radius:10px;border:1px dashed var(--border)">No activity</div>` : `
+      <div class="key-activity-list" style="max-height:200px">
+        ${keyActivity.map(item => {
+          const a = (item.action || "").toLowerCase();
+          let dotCls = "";
+          if (a.includes("expire") || a.includes("ban") || a.includes("delete")) dotCls = "red";
+          else if (a.includes("active") || a.includes("create") || a.includes("start")) dotCls = "green";
+          else if (a.includes("block") || a.includes("disable")) dotCls = "orange";
+          else dotCls = "blue";
+          return `<div class="key-activity-item"><span class="key-activity-dot ${dotCls}"></span><div class="key-activity-body"><div class="key-activity-title">${esc(item.action || "Action")}</div><div class="key-activity-meta"><span>${esc(formatTime(item.time))}</span></div></div></div>`;
+        }).join("")}
+      </div>
+    `}
+    <div class="details-section-title">Devices</div>
+    <div class="details-grid">
+      <div class="detail-item"><div class="detail-label">Max</div><div class="detail-value">${maxD}</div></div>
+      <div class="detail-item"><div class="detail-label">Registered</div><div class="detail-value">${dc} / ${maxD}</div></div>
+      ${getDeviceList(d).map((id,i) => `<div class="detail-item span-2"><div class="detail-label">Device ${i+1}</div><div class="detail-value">${esc(id)}</div></div>`).join("")}
+    </div>`;
+  openModal("viewModal");
+  $$("[data-qact]", $("#viewModalBody")).forEach(btn => btn.addEventListener("click", async () => {
+    const a = btn.dataset.qact, k = key;
+    if (a === "reactivate") { closeModal("viewModal"); setTimeout(() => openReactivateModal(k), 180); return; }
+    closeModal("viewModal"); await handleAction(a, k);
+  }));
+}
+$("#viewToActivity").addEventListener("click", () => {
+  if (!viewingKey) return;
+  const k = viewingKey;
+  closeModal("viewModal");
+  setTimeout(() => openKeyActivityModal(k), 180);
+});
+
+function getActivityForKey(key, limit = 0) {
+  const filtered = (activityLog || []).filter(item => item.key === key);
+  return limit > 0 ? filtered.slice(0, limit) : filtered;
+}
+function openKeyActivityModal(key) {
+  const d = allKeys[key]; if (!d) return;
+  activityKey = key;
+  $("#keyActivityBanner").textContent = key;
+  renderKeyActivity();
+  openModal("keyActivityModal");
+}
+function renderKeyActivity() {
+  if (!activityKey) return;
+  const items = getActivityForKey(activityKey, 0);
+  $("#keyActivityCount").textContent = items.length;
+  const listEl = $("#keyActivityList"), emptyEl = $("#keyActivityEmpty");
+  if (!items.length) { listEl.innerHTML = ""; emptyEl.classList.remove("hidden"); return; }
+  emptyEl.classList.add("hidden");
+  listEl.innerHTML = items.map(item => {
+    const a = (item.action || "").toLowerCase();
+    let dotCls = "blue";
+    if (a.includes("expire") || a.includes("ban") || a.includes("delete")) dotCls = "red";
+    else if (a.includes("active") || a.includes("create") || a.includes("start")) dotCls = "green";
+    else if (a.includes("block") || a.includes("disable")) dotCls = "orange";
+    return `<div class="key-activity-item"><span class="key-activity-dot ${dotCls}"></span><div class="key-activity-body"><div class="key-activity-title">${esc(item.action || "Action")}</div><div class="key-activity-meta"><span>${esc(formatFullTime(item.time))}</span></div></div></div>`;
+  }).join("");
+}
+
+function openDevicesModal(key) {
+  const d = allKeys[key]; if (!d) return;
+  devicesKey = key;
+  $("#devicesKeyBanner").textContent = key;
+  $("#newDeviceId").value = "";
+  renderDevicesModal();
+  openModal("devicesModal");
+  setTimeout(() => { try { $("#newDeviceId").focus(); } catch(e){} }, 220);
+}
+function renderDevicesModal() {
+  if (!devicesKey) return;
+  const d = allKeys[devicesKey];
+  if (!d) { closeModal("devicesModal"); devicesKey = null; return; }
+  const maxD = getMaxDevices(d), list = getDeviceList(d), dc = list.length, avail = Math.max(0, maxD - dc);
+  $("#devicesStatRegistered").textContent = dc;
+  $("#devicesStatMax").textContent = maxD;
+  const ae = $("#devicesStatAvailable");
+  ae.textContent = avail;
+  ae.style.color = avail === 0 ? "var(--red)" : avail < maxD ? "var(--orange)" : "var(--green)";
+  const listEl = $("#deviceManagerList");
+  if (!list.length) {
+    listEl.innerHTML = `<div class="empty" style="padding:24px 12px"><p style="font-size:11px">No devices</p></div>`;
+  } else {
+    listEl.innerHTML = list.map((id,i) => `<div class="row-item" style="cursor:default;padding:10px"><div class="switch-num" style="width:26px;height:26px;font-size:10px">${i+1}</div><div class="row-body" style="font-family:'JetBrains Mono',monospace;font-size:11px;overflow:hidden;text-overflow:ellipsis">${esc(id)}</div><button class="btn btn-sm" data-rem-dev="${esc(id)}" style="background:var(--red-soft);color:var(--red);border-color:rgba(239,68,68,.3)">REM</button></div>`).join("");
+    $$("[data-rem-dev]", listEl).forEach(b => b.addEventListener("click", () => removeSingleDevice(devicesKey, b.dataset.remDev)));
+  }
+  const addBtn = $("#addDeviceBtn"), input = $("#newDeviceId");
+  if (dc >= maxD) { addBtn.disabled = true; input.disabled = true; input.placeholder = "Limit reached"; }
+  else { addBtn.disabled = false; input.disabled = false; input.placeholder = "Device ID…"; }
+  $("#removeAllDevicesBtn").disabled = list.length === 0;
+}
+async function addDeviceManually() {
+  if (!devicesKey) return;
+  const key = devicesKey, d = allKeys[key]; if (!d) return;
+  const raw = $("#newDeviceId").value.trim();
+  if (!raw) { toast("Enter device ID", "error"); return; }
+  const maxD = getMaxDevices(d), current = getDeviceList(d);
+  if (current.includes(raw)) { toast("Already exists", "error"); return; }
+  if (current.length >= maxD) { toast(`Max ${maxD}`, "error"); return; }
+  try { await update(ref(db, `${USERS_NODE}/${key}/devices`), { [raw]: true }); logActivity("Device Added", key); toast("Added ✓", "ok"); $("#newDeviceId").value = ""; }
+  catch(e) { toast("Error", "error"); }
+}
+async function removeSingleDevice(key, deviceId) {
+  const ok = await confirmDialog("Remove Device", `Remove ${deviceId}?`, "REMOVE");
+  if (!ok) return;
+  try { await remove(ref(db, `${USERS_NODE}/${key}/devices/${deviceId}`)); logActivity("Device Removed", key); toast("Removed ✓", "ok"); }
+  catch(e) { toast("Error", "error"); }
+}
+async function removeAllDevices(key) {
+  const d = allKeys[key]; if (!d) return;
+  const list = getDeviceList(d);
+  if (!list.length) return;
+  const ok = await confirmDialog("Remove All", `Remove all ${list.length} devices?`, "REMOVE ALL");
+  if (!ok) return;
+  try { await remove(ref(db, `${USERS_NODE}/${key}/devices`)); logActivity("All Devices Removed", key); toast("Cleared ✓", "ok"); }
+  catch(e) { toast("Error", "error"); }
+}
+$("#addDeviceBtn").addEventListener("click", addDeviceManually);
+$("#removeAllDevicesBtn").addEventListener("click", () => { if (devicesKey) removeAllDevices(devicesKey); });
+$("#newDeviceId").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); addDeviceManually(); } });
+
+function updateCfgLogoPreview() {
+  const url = globalConfig.logoBase64 || globalConfig.logoUrl || "";
+  const circle = $("#cfgLogoPreview"), img = $("#cfgLogoPreviewImg"), ph = $("#cfgLogoPlaceholder");
+  if (!circle || !img || !ph) return;
+  if (url) { img.src = url; img.style.display = "block"; ph.style.display = "none"; circle.classList.add("has-image"); }
+  else { img.src = ""; img.style.display = "none"; ph.style.display = "grid"; circle.classList.remove("has-image"); }
+}
+function hydrateGlobalForm() {
+  if ($("#cfgAppName")) $("#cfgAppName").value = globalConfig.appName || "";
+  if ($("#cfgAppSubtitle")) $("#cfgAppSubtitle").value = globalConfig.appSubtitle || "";
+  if ($("#cfgDestPath")) $("#cfgDestPath").value = globalConfig.destPath || "";
+  updateCfgLogoPreview();
+}
+function hydrateControlsForm() {
+  if ($("#cfgLaunchPackage")) $("#cfgLaunchPackage").value = controlsConfig.launchPackage || "com.dts.freefireth";
+  if ($("#cfgLaunchLabel")) $("#cfgLaunchLabel").value = controlsConfig.launchLabel || "";
+  if ($("#cfgFloatingSw")) $("#cfgFloatingSw").classList.toggle("on", controlsConfig.floatingEnabled !== false);
+}
+$("#cfgFloatingSw").addEventListener("click", () => { $("#cfgFloatingSw").classList.toggle("on"); editingState.global = true; });
+$("#cfgLogoUploadBtn").addEventListener("click", () => $("#cfgLogoFile").click());
+$("#cfgLogoFile").addEventListener("change", async e => {
+  const f = e.target.files[0]; if (!f) return;
+  if (!/^image\/(png|jpe?g|webp)$/i.test(f.type)) { toast("PNG/JPG/WEBP only", "error"); return; }
+  if (f.size > 500 * 1024) { toast("Max 500 KB", "error"); return; }
+  try {
+    const b64 = await fileToBase64(f);
+    globalConfig.logoBase64 = b64; globalConfig.logoUrl = "";
+    updateCfgLogoPreview(); editingState.global = true;
+    toast("Logo ready — click SAVE ✓", "ok");
+  } catch(e) { toast("Failed", "error"); }
+});
+$("#cfgLogoRemoveBtn").addEventListener("click", async () => {
+  const ok = await confirmDialog("Remove Logo", "Clear logo?", "REMOVE");
+  if (!ok) return;
+  globalConfig.logoBase64 = ""; globalConfig.logoUrl = "";
+  updateCfgLogoPreview(); editingState.global = true;
+});
+$("#cfgGlobalSave").addEventListener("click", async () => {
+  const btn = $("#cfgGlobalSave"), orig = btn.textContent;
+  btn.disabled = true; btn.textContent = "SAVING…";
+  const appName = ($("#cfgAppName").value.trim() || "AURA XITERS");
+  const appSubtitle = ($("#cfgAppSubtitle").value.trim() || "PREMIUM EDITION");
+  const destPath = $("#cfgDestPath").value.trim();
+  const launchPackage = $("#cfgLaunchPackage").value || "com.dts.freefireth";
+  const launchLabel = ($("#cfgLaunchLabel").value.trim() || "LAUNCH FREE FIRE").slice(0, 30);
+  const floatingEnabled = $("#cfgFloatingSw").classList.contains("on");
+  const ok = await confirmDialog("Save App Config", "Apply to Android app?", "SAVE");
+  if (!ok) { btn.disabled = false; btn.textContent = orig; return; }
+  try {
+    await set(ref(db, CONFIG_NODE + "/global"), { appName, appSubtitle, destPath, logoUrl: globalConfig.logoUrl || "", logoBase64: globalConfig.logoBase64 || "", floatingEnabled });
+    await set(ref(db, CONFIG_NODE + "/controls"), { launchPackage, launchLabel, floatingEnabled, updatedAt: new Date().toISOString() });
+    controlsConfig = { launchPackage, launchLabel, floatingEnabled };
+    globalConfig = { ...globalConfig, appName, appSubtitle, destPath };
+    editingState.global = false;
+    logActivity("Global Config Updated", CONFIG_NODE + "/global");
+    toast("Saved ✓", "ok");
+    const s = $("#cfgGlobalSuccess"); s.textContent = "✅ Saved!"; s.classList.add("show");
+    setTimeout(() => s.classList.remove("show"), 2400);
+  } catch(e) {
+    const err = $("#cfgGlobalError"); err.textContent = "❌ " + (e.message || "Save failed."); err.classList.add("show");
+    setTimeout(() => err.classList.remove("show"), 5000);
+  } finally { btn.disabled = false; btn.textContent = orig; }
+});
+
+["cfgAppName","cfgAppSubtitle","cfgDestPath","cfgLaunchLabel"].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener("input", () => { editingState.global = true; });
+});
+$("#cfgLaunchPackage")?.addEventListener("change", () => { editingState.global = true; });
+
+function switchBlockHTML(id, sw, num) {
+  const enabled = sw?.enabled !== false;
+  const del = sw?.deleteFiles ? Object.values(sw.deleteFiles).join(", ") : "";
+  const pathVal = sw?.path ? String(sw.path) : "";
+  return `<div class="switch-block" data-switch-id="${esc(id)}">
+    <div class="switch-block-head">
+      <div class="switch-block-left">
+        <div class="switch-num">${num}</div>
+        <div style="flex:1;min-width:0">
+          <div class="switch-id">[${esc(id)}]</div>
+          <div><span class="switch-status ${enabled?"on":"off"}" data-status-badge>${enabled?"VISIBLE":"HIDDEN"}</span></div>
+        </div>
+      </div>
+      <div class="switch-block-right">
+        <div class="switch ${enabled?"on":""}" data-enabled-switch></div>
+        <button class="remove-switch-btn" data-remove-switch="${esc(id)}">✕</button>
+      </div>
+    </div>
+    <div class="grid-2">
+      <label class="field"><span class="field-label">LABEL</span><input type="text" data-field="label" value="${esc(sw?.label||"")}" placeholder="HIGH DAMAGE"></label>
+      <label class="field"><span class="field-label">ZIP URL</span><input type="text" data-field="url" value="${esc(sw?.url||"")}" placeholder="https://.../file.zip"></label>
+      <label class="field span-2"><span class="field-label">PATH (OPTIONAL)</span><input type="text" data-field="path" value="${esc(pathVal)}"></label>
+      <label class="field span-2"><span class="field-label">DELETE FILES</span><input type="text" data-field="deleteFiles" value="${esc(del)}" placeholder="file1.bin, file2.bin"></label>
+    </div>
+  </div>`;
+}
+function renderSwitchBlocks() {
+  const c = $("#switchBlocksContainer"), e = $("#switchEmpty");
+  if (!c) return;
+  const ids = Object.keys(switchesConfig || {});
+  $("#switchCountPill").textContent = `${ids.length} SWITCH${ids.length === 1 ? "" : "ES"}`;
+  if (!ids.length) { c.innerHTML = ""; e.classList.remove("hidden"); return; }
+  e.classList.add("hidden");
+  c.innerHTML = ids.sort().map((id, i) => switchBlockHTML(id, switchesConfig[id], i+1)).join("");
+  $$("[data-remove-switch]", c).forEach(b => b.addEventListener("click", () => removeSwitch(b.dataset.removeSwitch)));
+  $$(".switch-block", c).forEach(bl => {
+    const sw = bl.querySelector("[data-enabled-switch]");
+    const bd = bl.querySelector("[data-status-badge]");
+    if (sw && bd) sw.addEventListener("click", () => {
+      sw.classList.toggle("on");
+      const isOn = sw.classList.contains("on");
+      bd.textContent = isOn ? "VISIBLE" : "HIDDEN";
+      bd.classList.toggle("on", isOn); bd.classList.toggle("off", !isOn);
+      editingState.switches = true;
+    });
+    bl.querySelectorAll("input[data-field]").forEach(inp => inp.addEventListener("input", () => { editingState.switches = true; }));
+  });
+}
+async function addNewSwitch() {
+  const id = await promptDialog("Add Switch", "Enter unique switch ID:", "SWITCH ID", "");
+  if (id === null) return;
+  const t = String(id).trim();
+  if (!t) { toast("Invalid", "error"); return; }
+  if (!/^[A-Za-z0-9_-]+$/.test(t)) { toast("Only A-Z, 0-9, -, _", "error"); return; }
+  if (hasOwn(switchesConfig, t)) { toast("Duplicate", "error"); return; }
+  switchesConfig[t] = { label: `MOD ${Object.keys(switchesConfig).length + 1}`, url: "", path: "", enabled: true, deleteFiles: {} };
+  editingState.switches = true;
+  renderSwitchBlocks();
+  toast("Added — click SAVE ✓", "ok");
+}
+async function removeSwitch(id) {
+  if (!switchesConfig[id]) return;
+  const ok = await confirmDialog("Remove Switch", `Remove "${id}"?`, "REMOVE");
+  if (!ok) return;
+  delete switchesConfig[id];
+  editingState.switches = true;
+  renderSwitchBlocks();
+  toast("Removed — click SAVE ✓", "ok");
+}
+async function saveSwitchesConfig() {
+  const err = $("#cfgSwitchesError"); err.classList.remove("show");
+  const s = $("#cfgSwitchesSuccess"); s.classList.remove("show");
+  const blocks = $$(".switch-block", $("#switchBlocksContainer"));
+  const built = {};
+  blocks.forEach(bl => {
+    const id = bl.dataset.switchId;
+    if (!id) return;
+    const label = bl.querySelector('[data-field="label"]').value.trim();
+    const url = bl.querySelector('[data-field="url"]').value.trim();
+    const pathEl = bl.querySelector('[data-field="path"]');
+    const path = pathEl ? pathEl.value.trim() : "";
+    const delRaw = bl.querySelector('[data-field="deleteFiles"]').value.trim();
+    const enabled = bl.querySelector("[data-enabled-switch]").classList.contains("on");
+    const df = {};
+    if (delRaw) delRaw.split(",").map(x => x.trim()).filter(x => x.length).forEach((f, i) => { df[String(i)] = f; });
+    built[id] = { label, url, path, enabled, deleteFiles: df };
+  });
+  Object.keys(switchesConfig).forEach(id => { if (!built[id]) built[id] = switchesConfig[id]; });
+  const ok = await confirmDialog("Save Switches", `Save ${Object.keys(built).length} switch(es)?`, "SAVE");
+  if (!ok) return;
+  const btn = $("#cfgSwitchesSave"), orig = btn.textContent;
+  btn.disabled = true; btn.textContent = "SAVING…";
+  try {
+    await set(ref(db, CONFIG_NODE + "/switches"), built);
+    switchesConfig = built;
+    editingState.switches = false;
+    s.textContent = `✅ ${Object.keys(built).length} saved!`; s.classList.add("show");
+    setTimeout(() => s.classList.remove("show"), 2400);
+    logActivity("Switches Updated", CONFIG_NODE + "/switches");
+    toast("Saved ✓", "ok");
+  } catch(e) {
+    err.textContent = "❌ " + (e.message || "Save failed"); err.classList.add("show");
+    setTimeout(() => err.classList.remove("show"), 5000);
+  } finally { btn.disabled = false; btn.textContent = orig; }
+}
+$("#addSwitchBtn").addEventListener("click", addNewSwitch);
+$("#cfgSwitchesSave").addEventListener("click", saveSwitchesConfig);
+
+function renderGames() {
+  const wrap = $("#gameList"); if (!wrap) return;
+  const ids = Object.keys(gamesConfig);
+  $("#gameCountPill").textContent = `${ids.length} GAME${ids.length === 1 ? "" : "S"}`;
+  wrap.innerHTML = "";
+  ids.forEach((id) => {
+    const g = gamesConfig[id];
+    const enabled = g.enabled !== false;
+    const el = document.createElement("div");
+    el.className = "row-item";
+    el.dataset.gameId = id;
+    el.innerHTML = `
+      <div class="row-thumb">${g.iconUrl ? `<img src="${esc(g.iconUrl)}">` : (g.name || "?").substring(0,2).toUpperCase()}</div>
+      <div class="row-body">
+        <div class="row-line"><input type="text" data-f="name" value="${esc(g.name||"")}" placeholder="Free Fire"></div>
+        <div class="row-line"><input type="text" data-f="package" value="${esc(g.package||"")}" placeholder="com.dts.freefireth"></div>
+        <div class="row-line"><input type="text" data-f="version" value="${esc(g.version||"1.0.0")}" placeholder="1.0.0"></div>
+      </div>
+      <div class="row-actions">
+        <div class="switch ${enabled ? "on" : ""}" data-f="enabled"></div>
+        <button class="btn btn-sm btn-icon btn-danger" data-f="del"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+      </div>
+    `;
+    el.querySelectorAll("input[data-f]").forEach(inp => {
+      inp.addEventListener("input", e => { gamesConfig[id][e.target.dataset.f] = e.target.value; editingState.games = true; });
+    });
+    el.querySelector(".switch").addEventListener("click", () => {
+      gamesConfig[id].enabled = !(gamesConfig[id].enabled !== false);
+      editingState.games = true;
+      renderGames();
+    });
+    el.querySelector("[data-f='del']").addEventListener("click", async () => {
+      const ok = await confirmDialog("Remove Game", `Remove "${g.name}"?`, "REMOVE");
+      if (!ok) return;
+      delete gamesConfig[id];
+      editingState.games = true;
+      renderGames();
+    });
+    wrap.appendChild(el);
+  });
+}
+$("#addGameBtn").addEventListener("click", () => {
+  let baseId = "game";
+  let n = 1;
+  while (gamesConfig[baseId + n]) n++;
+  const id = baseId + n;
+  gamesConfig[id] = { name: "New Game", package: "", version: "1.0.0", iconUrl: "", enabled: true };
+  editingState.games = true;
+  renderGames();
+  toast("Added — edit fields, then SAVE ✓", "ok");
+  setTimeout(() => {
+    const cards = $$("#gameList .row-item");
+    const lastCard = cards[cards.length - 1];
+    if (lastCard) {
+      lastCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      const nameInput = lastCard.querySelector('input[data-f="name"]');
+      if (nameInput) { nameInput.focus(); nameInput.select(); }
+    }
+  }, 250);
+});
+$("#gamesSave").addEventListener("click", async () => {
+  const btn = $("#gamesSave"), orig = btn.textContent;
+  btn.disabled = true; btn.textContent = "SAVING…";
+  const ok = await confirmDialog("Save Games", `Save ${Object.keys(gamesConfig).length} game(s)?`, "SAVE");
+  if (!ok) { btn.disabled = false; btn.textContent = orig; return; }
+  try {
+    await set(ref(db, CONFIG_NODE + "/games"), gamesConfig);
+    editingState.games = false;
+    toast("Games saved ✓", "ok");
+    logActivity("Games Updated", CONFIG_NODE + "/games");
+    const s = $("#gamesSuccess"); s.textContent = "✅ Saved!"; s.classList.add("show");
+    setTimeout(() => s.classList.remove("show"), 2400);
+  } catch(e) {
+    const err = $("#gamesError"); err.textContent = "❌ " + (e.message||""); err.classList.add("show");
+    setTimeout(() => err.classList.remove("show"), 5000);
+  } finally { btn.disabled = false; btn.textContent = orig; }
+});
+
+function renderServers() {
+  const wrap = $("#serverList"); if (!wrap) return;
+  const ids = Object.keys(serversConfig);
+  $("#serverCountPill").textContent = `${ids.length} SERVER${ids.length === 1 ? "" : "S"}`;
+  wrap.innerHTML = "";
+  ids.forEach((id) => {
+    const s = serversConfig[id];
+    const enabled = s.enabled !== false;
+    const el = document.createElement("div");
+    el.className = "row-item";
+    el.dataset.serverId = id;
+    el.innerHTML = `
+      <div class="row-body">
+        <div class="row-line"><input type="text" data-f="name" value="${esc(s.name||"")}" placeholder="Singapore"></div>
+        <div class="row-line"><input type="text" data-f="host" value="${esc(s.host||"")}" placeholder="google.com.sg"></div>
+        <div class="row-line"><input type="number" data-f="port" value="${esc(s.port||443)}" placeholder="443" min="1" max="65535"></div>
+      </div>
+      <div class="row-actions">
+        <div class="switch ${enabled ? "on" : ""}" data-f="enabled"></div>
+        <button class="btn btn-sm btn-icon btn-danger" data-f="del"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+      </div>
+    `;
+    el.querySelectorAll("input[data-f]").forEach(inp => {
+      inp.addEventListener("input", e => {
+        const f = e.target.dataset.f;
+        if (f === "port") serversConfig[id].port = parseInt(e.target.value) || 443;
+        else serversConfig[id][f] = e.target.value;
+        editingState.servers = true;
+      });
+    });
+    el.querySelector(".switch").addEventListener("click", () => {
+      serversConfig[id].enabled = !(serversConfig[id].enabled !== false);
+      editingState.servers = true;
+      renderServers();
+    });
+    el.querySelector("[data-f='del']").addEventListener("click", async () => {
+      const ok = await confirmDialog("Remove Server", `Remove "${s.name}"?`, "REMOVE");
+      if (!ok) return;
+      delete serversConfig[id];
+      editingState.servers = true;
+      renderServers();
+    });
+    wrap.appendChild(el);
+  });
+}
+$("#addServerBtn").addEventListener("click", () => {
+  let baseId = "server";
+  let n = 1;
+  while (serversConfig[baseId + n]) n++;
+  const id = baseId + n;
+  serversConfig[id] = { name: "New Server", host: "", port: 443, region: "", enabled: true };
+  editingState.servers = true;
+  renderServers();
+  toast("Added — edit fields, then SAVE ✓", "ok");
+  setTimeout(() => {
+    const cards = $$("#serverList .row-item");
+    const lastCard = cards[cards.length - 1];
+    if (lastCard) {
+      lastCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      const nameInput = lastCard.querySelector('input[data-f="name"]');
+      if (nameInput) { nameInput.focus(); nameInput.select(); }
+    }
+  }, 250);
+});
+$("#serversSave").addEventListener("click", async () => {
+  const btn = $("#serversSave"), orig = btn.textContent;
+  btn.disabled = true; btn.textContent = "SAVING…";
+  const ok = await confirmDialog("Save Servers", `Save ${Object.keys(serversConfig).length} server(s)?`, "SAVE");
+  if (!ok) { btn.disabled = false; btn.textContent = orig; return; }
+  try {
+    await set(ref(db, CONFIG_NODE + "/servers"), serversConfig);
+    editingState.servers = false;
+    toast("Servers saved ✓", "ok");
+    logActivity("Servers Updated", CONFIG_NODE + "/servers");
+    const s = $("#serversSuccess"); s.textContent = "✅ Saved!"; s.classList.add("show");
+    setTimeout(() => s.classList.remove("show"), 2400);
+  } catch(e) {
+    const err = $("#serversError"); err.textContent = "❌ " + (e.message||""); err.classList.add("show");
+    setTimeout(() => err.classList.remove("show"), 5000);
+  } finally { btn.disabled = false; btn.textContent = orig; }
+});
+
+function setVal(id, val) { const el = document.getElementById(id); if (el) el.value = val == null ? "" : String(val); }
+function updateBrandLogoPreview() {
+  const url = brandingConfig.logoBase64 || brandingConfig.logoUrl || "";
+  const circle = $("#brandLogoPreview2"), img = $("#brandLogoPreviewImg"), ph = $("#brandLogoPlaceholder");
+  if (!circle || !img || !ph) return;
+  if (url) { img.src = url; img.style.display = "block"; ph.style.display = "none"; circle.classList.add("has-image"); }
+  else { img.src = ""; img.style.display = "none"; ph.style.display = "grid"; circle.classList.remove("has-image"); }
+}
+function hydrateBrandingForm() {
+  const c = brandingConfig;
+  setVal("brandAppName", c.appName); setVal("brandEdition", c.edition); setVal("brandVersion", c.version); setVal("brandTagline", c.tagline);
+  setVal("brandLogoUrl", c.logoUrl); setVal("brandAccentPicker", c.accentColor); setVal("brandAccentHex", c.accentColor);
+  setVal("brandLoginTitle", c.loginTitle); setVal("brandLoginSub", c.loginSubtitle); setVal("brandHintText", c.hintText);
+  setVal("brandLoadingText", c.loadingText); setVal("brandSuccessText", c.successText); setVal("brandMoreLabel", c.moreOptionsLabel);
+  setVal("brandFooterText", c.footerText);
+  setVal("permNotifTitle", c.permNotifTitle); setVal("permNotifDesc", c.permNotifDesc);
+  setVal("permOverTitle", c.permOverTitle); setVal("permOverDesc", c.permOverDesc);
+  setVal("permBattTitle", c.permBattTitle); setVal("permBattDesc", c.permBattDesc);
+  setVal("permShzTitle", c.permShzTitle); setVal("permShzDesc", c.permShzDesc);
+  setVal("permVpnTitle", c.permVpnTitle); setVal("permVpnDesc", c.permVpnDesc);
+  setVal("brandYtName", c.youtubeName); setVal("brandYtUrl", c.youtubeUrl); setVal("brandYtDesc", c.youtubeDesc); setVal("brandYtBtn", c.youtubeButtonText);
+  setVal("brandTgName", c.telegramName); setVal("brandTgUrl", c.telegramUrl); setVal("brandTgDesc", c.telegramDesc); setVal("brandTgBtn", c.telegramButtonText);
+  setVal("brandSetupTitle", c.setupTitle); setVal("brandSetupUrl", c.setupUrl); setVal("brandSetupDesc", c.setupDesc);
+  setVal("brandSupportTitle", c.supportTitle); setVal("brandSupportDesc", c.supportDesc); setVal("brandSupportUrl", c.supportUrl);
+  setVal("brandMaintTitle", c.maintenanceTitle); setVal("brandMaintMessage", c.maintenanceMessage); setVal("brandMaintEndTime", c.maintenanceEndTime); setVal("brandMaintBtn", c.maintenanceButtonText);
+  setVal("brandUpdVersion", c.updateVersion); setVal("brandUpdTitle", c.updateTitle); setVal("brandUpdMessage", c.updateMessage); setVal("brandUpdUrl", c.updateUrl); setVal("brandUpdBtn", c.updateButtonText);
+  $("#brandMaintEnabledSw").classList.toggle("on", c.maintenanceEnabled === true);
+  $("#brandUpdEnabledSw").classList.toggle("on", c.updateEnabled === true);
+  $("#brandUpdForceSw").classList.toggle("on", c.updateForce === true);
+  updateBrandLogoPreview();
+}
+function applyBranding() {
+  const name = brandingConfig.appName || "AURA XITERS";
+  const logo = brandingConfig.logoBase64 || brandingConfig.logoUrl || "";
+  $("#brandNamePreview").textContent = (name.toUpperCase() + " ADMIN").slice(0, 30);
+  $("#adminMiniName").textContent = settings.adminName;
+  document.title = name.toUpperCase() + " ADMIN";
+  if (logo) { $("#brandLogoPreview").innerHTML = `<img src="${esc(logo)}" alt="">`; }
+  else {
+    const initials = name.split(" ").map(w => w.charAt(0)).join("").slice(0,2).toUpperCase() || "AX";
+    $("#brandLogoPreview").textContent = initials;
+  }
+  try {
+    const c = brandingConfig.accentColor || "#8B5CF6";
+    document.documentElement.style.setProperty("--primary", c);
+    document.documentElement.style.setProperty("--primary-lt", shadeHex(c, 20));
+    document.documentElement.style.setProperty("--primary-dp", shadeHex(c, -30));
+    document.documentElement.style.setProperty("--primary-ac", shadeHex(c, 35));
+  } catch(e) {}
+}
+function shadeHex(hex, pct) {
+  try {
+    const n = parseInt(hex.replace("#",""), 16);
+    let r = (n>>16)&0xff, g = (n>>8)&0xff, b = n&0xff;
+    const t = pct < 0 ? 0 : 255, p = Math.abs(pct)/100;
+    r = Math.round((t-r)*p) + r; g = Math.round((t-g)*p) + g; b = Math.round((t-b)*p) + b;
+    return "#" + ((1<<24) + (r<<16) + (g<<8) + b).toString(16).slice(1);
+  } catch(e) { return hex; }
+}
+$$("#brandingTabs .seg-tab").forEach(b => b.addEventListener("click", () => {
+  $$("#brandingTabs .seg-tab").forEach(x => x.classList.toggle("active", x === b));
+  $$(".brand-tab").forEach(t => t.classList.toggle("hidden", t.dataset.btabContent !== b.dataset.btab));
+}));
+$("#brandLogoUploadBtn").addEventListener("click", () => $("#brandLogoFile").click());
+$("#brandLogoFile").addEventListener("change", async e => {
+  const f = e.target.files[0]; if (!f) return;
+  if (!/^image\/(png|jpe?g|webp)$/i.test(f.type)) { toast("PNG/JPG/WEBP only", "error"); return; }
+  if (f.size > 500 * 1024) { toast("Max 500 KB", "error"); return; }
+  try {
+    const b64 = await fileToBase64(f);
+    brandingConfig.logoBase64 = b64; brandingConfig.logoUrl = "";
+    $("#brandLogoUrl").value = ""; updateBrandLogoPreview();
+    editingState.branding = true;
+    toast("Logo ready — click SAVE ✓", "ok");
+  } catch(e) { toast("Failed", "error"); }
+});
+$("#brandLogoRemoveBtn").addEventListener("click", async () => {
+  const ok = await confirmDialog("Remove Logo", "Clear logo?", "REMOVE");
+  if (!ok) return;
+  brandingConfig.logoBase64 = ""; brandingConfig.logoUrl = "";
+  $("#brandLogoUrl").value = ""; updateBrandLogoPreview();
+  editingState.branding = true;
+});
+$("#brandLogoUrl").addEventListener("input", e => {
+  brandingConfig.logoUrl = e.target.value.trim();
+  if (brandingConfig.logoUrl) brandingConfig.logoBase64 = "";
+  updateBrandLogoPreview();
+  editingState.branding = true;
+});
+$("#brandAccentPicker").addEventListener("input", e => { $("#brandAccentHex").value = e.target.value; editingState.branding = true; });
+$("#brandAccentHex").addEventListener("input", e => {
+  const v = e.target.value.trim().toLowerCase();
+  if (/^#[0-9a-f]{6}$/i.test(v)) $("#brandAccentPicker").value = v;
+  editingState.branding = true;
+});
+$("#brandMaintEnabledSw").addEventListener("click", () => { $("#brandMaintEnabledSw").classList.toggle("on"); editingState.branding = true; });
+$("#brandUpdEnabledSw").addEventListener("click", () => { $("#brandUpdEnabledSw").classList.toggle("on"); editingState.branding = true; });
+$("#brandUpdForceSw").addEventListener("click", () => { $("#brandUpdForceSw").classList.toggle("on"); editingState.branding = true; });
+
+$$("#branding input, #branding textarea, #branding select").forEach(el => {
+  el.addEventListener("input", () => { editingState.branding = true; });
+  el.addEventListener("change", () => { editingState.branding = true; });
+});
+
+$("#brandingSave").addEventListener("click", async () => {
+  const btn = $("#brandingSave"), orig = btn.textContent;
+  btn.disabled = true; btn.textContent = "SAVING…";
+  const ok = await confirmDialog("Save Branding", "Save all screens?", "SAVE ALL");
+  if (!ok) { btn.disabled = false; btn.textContent = orig; return; }
+  const payload = {
+    appName: ($("#brandAppName").value.trim() || "AURA XITERS").slice(0,24),
+    edition: ($("#brandEdition").value.trim() || "PREMIUM EDITION").slice(0,30),
+    version: ($("#brandVersion").value.trim() || "V2.0").slice(0,16),
+    tagline: ($("#brandTagline").value.trim() || "PREMIUM SECURE PORTAL").slice(0,40),
+    logoUrl: $("#brandLogoUrl").value.trim(),
+    logoBase64: brandingConfig.logoBase64 || "",
+    accentColor: ($("#brandAccentHex").value.trim() || "#8B5CF6").toLowerCase(),
+    loginTitle: $("#brandLoginTitle").value.trim() || "ACCESS KEY",
+    loginSubtitle: $("#brandLoginSub").value.trim() || "Enter your key to continue",
+    hintText: $("#brandHintText").value.trim() || "Enter Access Key",
+    loadingText: $("#brandLoadingText").value.trim() || "VERIFYING...",
+    successText: $("#brandSuccessText").value.trim() || "ACCESS GRANTED",
+    moreOptionsLabel: $("#brandMoreLabel").value.trim() || "MORE OPTIONS",
+    footerText: $("#brandFooterText").value.trim() || "POWERED BY AURA XITERS",
+    permissions: {
+      notificationTitle: $("#permNotifTitle").value.trim() || "Allow Notifications",
+      notificationDesc:  $("#permNotifDesc").value.trim()  || "Needed to keep the service active.",
+      overlayTitle:      $("#permOverTitle").value.trim()  || "Display Over Apps",
+      overlayDesc:       $("#permOverDesc").value.trim()   || "Needed for the in-game control panel.",
+      batteryTitle:      $("#permBattTitle").value.trim()  || "Battery Optimization",
+      batteryDesc:       $("#permBattDesc").value.trim()   || "Required for a stable connection.",
+      shizukuTitle:      $("#permShzTitle").value.trim()   || "Shizuku Permission",
+      shizukuDesc:       $("#permShzDesc").value.trim()    || "Required for advanced system operations.",
+      vpnTitle:          $("#permVpnTitle").value.trim()   || "VPN Permission",
+      vpnDesc:           $("#permVpnDesc").value.trim()    || "Required to route traffic through the secure tunnel."
+    },
+    youtubeName: $("#brandYtName").value.trim() || "AURA XITERS",
+    youtubeUrl: $("#brandYtUrl").value.trim(),
+    youtubeDesc: $("#brandYtDesc").value.trim(),
+    youtubeButtonText: $("#brandYtBtn").value.trim() || "SUBSCRIBE",
+    telegramName: $("#brandTgName").value.trim() || "AURA XITERS",
+    telegramUrl: $("#brandTgUrl").value.trim(),
+    telegramDesc: $("#brandTgDesc").value.trim(),
+    telegramButtonText: $("#brandTgBtn").value.trim() || "JOIN TELEGRAM",
+    setupTitle: $("#brandSetupTitle").value.trim() || "SETUP VIDEO",
+    setupUrl: $("#brandSetupUrl").value.trim(),
+    setupDesc: $("#brandSetupDesc").value.trim(),
+    supportTitle: $("#brandSupportTitle").value.trim() || "SUPPORT",
+    supportDesc: $("#brandSupportDesc").value.trim(),
+    supportUrl: $("#brandSupportUrl").value.trim(),
+    maintenanceEnabled: $("#brandMaintEnabledSw").classList.contains("on"),
+    maintenanceTitle: $("#brandMaintTitle").value.trim() || "MAINTENANCE MODE",
+    maintenanceMessage: $("#brandMaintMessage").value.trim(),
+    maintenanceEndTime: $("#brandMaintEndTime").value.trim(),
+    maintenanceButtonText: $("#brandMaintBtn").value.trim() || "OK",
+    updateEnabled: $("#brandUpdEnabledSw").classList.contains("on"),
+    updateForce: $("#brandUpdForceSw").classList.contains("on"),
+    updateVersion: $("#brandUpdVersion").value.trim() || "V3.0",
+    updateTitle: $("#brandUpdTitle").value.trim() || "NEW UPDATE AVAILABLE",
+    updateMessage: $("#brandUpdMessage").value.trim(),
+    updateUrl: $("#brandUpdUrl").value.trim(),
+    updateButtonText: $("#brandUpdBtn").value.trim() || "UPDATE NOW",
+    updatedAt: new Date().toISOString()
+  };
+  try {
+    await set(ref(db, CONFIG_NODE + "/BRANDING"), payload);
+    brandingConfig = { ...brandingConfig, ...payload };
+    applyBranding();
+    editingState.branding = false;
+    logActivity("Branding Updated", CONFIG_NODE + "/BRANDING");
+    toast("Branding saved ✓", "ok");
+    const s = $("#brandingSuccess"); s.textContent = "✅ Saved!"; s.classList.add("show");
+    setTimeout(() => s.classList.remove("show"), 2400);
+  } catch(e) {
+    const err = $("#brandingError"); err.textContent = "❌ " + (e.message || "Save failed"); err.classList.add("show");
+    setTimeout(() => err.classList.remove("show"), 5000);
+  } finally { btn.disabled = false; btn.textContent = orig; }
+});
+$("#brandingReload").addEventListener("click", () => { editingState.branding = false; hydrateBrandingForm(); toast("Reloaded", "ok"); });
+
+function fileToBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result);
+    r.onerror = () => rej(new Error("Read failed"));
+    r.readAsDataURL(file);
+  });
+}
+
+function renderDevices() {
+  const grid = $("#deviceGrid"), e = $("#deviceEmpty");
+  if (!grid || !e) return;
+  const withDev = Object.entries(allKeys).map(([k,v]) => ({key:k,...v})).filter(o => getDeviceCount(o) > 0);
+  const total = withDev.reduce((s,o) => s + getDeviceCount(o), 0);
+  $("#devicePill").textContent = total;
+  if (!withDev.length) { grid.innerHTML = ""; e.classList.remove("hidden"); return; }
+  e.classList.add("hidden");
+  grid.innerHTML = withDev.map(o => {
+    const dc = getDeviceCount(o), maxD = getMaxDevices(o);
+    const disp = getKeyDisplayStatus(o);
+    const meta = statusIconFor(disp);
+    return `<div class="device-card"><div class="device-head"><div class="device-icon">${meta.icon}</div><div style="flex:1;min-width:0"><div class="device-key">${esc(o.key)}</div><div class="device-user">${esc(o.username||"—")}</div></div></div><div class="device-field"><span>Status</span><span style="color:${meta.color}">${disp}</span></div><div class="device-field"><span>Devices</span><span style="color:${dc >= maxD ? "var(--red)" : "var(--green)"}">${dc} / ${maxD}</span></div><button class="btn btn-primary btn-block btn-sm" data-manage-dev="${esc(o.key)}" style="margin-top:10px">MANAGE</button></div>`;
+  }).join("");
+  $$("[data-manage-dev]", grid).forEach(b => b.addEventListener("click", () => openDevicesModal(b.dataset.manageDev)));
+}
+
+function renderActivity() {
+  const list = $("#activityList"), e = $("#activityEmpty");
+  if (!list || !e) return;
+  $("#activityCount").textContent = activityLog.length;
+  if (!activityLog.length) { list.innerHTML = ""; e.classList.remove("hidden"); return; }
+  e.classList.add("hidden");
+  list.innerHTML = activityLog.map(item => `<div class="activity-item"><div class="activity-icon">📋</div><div class="activity-body"><div class="activity-action">${esc(item.action || "Action")}</div><div class="activity-meta">${item.key ? `<code>${esc(item.key)}</code>` : ""}<span>${esc(formatTime(item.time))}</span></div></div></div>`).join("");
+}
+function formatTime(iso) { if (!iso) return "—"; const d = new Date(iso); if (isNaN(d.getTime())) return String(iso); const diff = Date.now() - d.getTime(); if (diff < 60000) return "just now"; if (diff < 3600000) return Math.floor(diff/60000) + "m ago"; if (diff < 86400000) return Math.floor(diff/3600000) + "h ago"; if (diff < 604800000) return Math.floor(diff/86400000) + "d ago"; return d.toLocaleDateString(); }
+function formatFullTime(iso) { if (!iso) return "—"; const d = new Date(iso); if (isNaN(d.getTime())) return String(iso); return `${pad(d.getDate())}-${pad(d.getMonth()+1)}-${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`; }
+
+$("#openCreateBtn").addEventListener("click", () => { switchTab("create"); setTimeout(() => { try { $("#cKey").focus(); } catch(e){} }, 220); });
+$("#refreshBtn").addEventListener("click", () => {
+  hydrateGlobalForm(); hydrateControlsForm();
+  if (!editingState.branding) hydrateBrandingForm();
+  renderStats(); renderKeys(); renderDevices(); renderActivity(); renderRecentKeys(); renderRecentActivity();
+  if (!editingState.games) renderGames();
+  if (!editingState.servers) renderServers();
+  if (!editingState.switches) renderSwitchBlocks();
+  populateNotifTarget();
+  syncExpiredStatuses(allKeys);
+  toast("Refreshed ✓", "ok");
+});
+let searchTimer = null;
+$("#searchInput").addEventListener("input", e => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => { currentSearch = e.target.value; renderKeys(); }, 200);
+});
+$$("#filterChips .chip").forEach(c => c.addEventListener("click", () => {
+  $$("#filterChips .chip").forEach(x => x.classList.remove("active"));
+  c.classList.add("active");
+  currentFilter = c.dataset.filter;
+  renderKeys();
+}));
+$("#syncStatusBtn").addEventListener("click", async () => {
+  syncCooldown.clear();
+  const toFix = [];
+  for (const [key, data] of Object.entries(allKeys)) {
+    if (!data || !data.validity) continue;
+    const ks = String(data.keyStatus || "ACTIVE").toUpperCase();
+    if (ks === "EXPIRED" || ks === "BLOCKED" || ks === "BANNED" || ks === "DISABLED") continue;
+    const end = parseValidity(data.validity);
+    if (end && Date.now() >= end.getTime()) toFix.push(key);
+  }
+  if (!toFix.length) { toast("No expired keys", "ok"); return; }
+  const ok = await confirmDialog("Sync Expired", `${toFix.length} expired key(s)?`, "SYNC");
+  if (!ok) return;
+  try {
+    await Promise.all(toFix.map(key => update(ref(db, `${USERS_NODE}/${key}`), { keyStatus: "EXPIRED", status: "INACTIVE", expiredAt: new Date().toISOString() }).then(() => logActivity("Synced EXPIRED", key))));
+    toast(`Synced ${toFix.length} ✓`, "ok");
+  } catch(e) { toast("Failed", "error"); }
+});
+
+$("#settingsName").value = settings.adminName;
+$("#settingsName").addEventListener("input", e => {
+  settings.adminName = e.target.value.trim() || "Admin";
+  localStorage.setItem("fm_adminName", settings.adminName);
+  $("#adminMiniName").textContent = settings.adminName;
+});
+
+function applyTheme(t) {
+  document.documentElement.setAttribute("data-theme", t);
+  settings.theme = t;
+  localStorage.setItem("fm_theme", t);
+  $$(".theme-opt").forEach(b => b.classList.toggle("active", b.dataset.themeName === t));
+}
+$$(".theme-opt").forEach(b => b.addEventListener("click", () => { applyTheme(b.dataset.themeName); toast("Theme: " + b.dataset.themeName, "ok"); }));
+
+document.querySelectorAll(".dock-btn[data-tab]").forEach(btn => btn.addEventListener("click", () => switchTab(btn.dataset.tab)));
+document.querySelectorAll(".more-tile[data-tab]").forEach(btn => btn.addEventListener("click", () => { closeMore(); switchTab(btn.dataset.tab); }));
+function switchTab(tab) {
+  document.querySelectorAll(".dock-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
+  document.querySelectorAll(".tab-panel").forEach(p => p.classList.toggle("active", p.dataset.tab === tab));
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+$("#moreBtn").addEventListener("click", () => $("#moreSheet").classList.add("show"));
+$("#moreSheet").addEventListener("click", e => { if (e.target.id === "moreSheet") closeMore(); });
+function closeMore() { $("#moreSheet").classList.remove("show"); }
+
+function boot() {
+  window.__dwBootCalled = true;
+  try { applyTheme(settings.theme); } catch(e) {}
+  try { loadCache(); } catch(e) {}
+  try { applyBranding(); } catch(e) {}
+  try {
+    renderStats(); renderKeys(); renderDevices(); renderRecentKeys(); renderRecentActivity();
+    renderGames(); renderServers(); renderSwitchBlocks(); renderNotifHistory();
+    hydrateGlobalForm(); hydrateControlsForm(); hydrateBrandingForm();
+    populateNotifTarget();
+  } catch(e) {}
+  setTimeout(() => {
+    const s = document.getElementById("splash");
+    if (s) { s.classList.add("out"); setTimeout(() => { if (s.parentNode) s.remove(); }, 350); }
+  }, 200);
+  try { buildDurationChips($("#createDurations"), "cDurationValue", "cDurationUnit"); } catch(e) {}
+}
+
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+else boot();
+</script>
+
+</body>
+</html>
